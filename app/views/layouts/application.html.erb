@@ -13,7 +13,10 @@
 
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
+    Hello <%if current_user%>
+    <%= current_user.email%>
+    <%end%>
+    <%= yield%>
     </main>
   </body>
 </html>
