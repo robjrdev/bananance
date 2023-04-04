@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to sign_in_path
     else
-      flash.now[:notice] = @user.errors.full_messages.to_sentence
+      #flash.now[:notice] = @user.errors.full_messages.to_sentence
        render :new, status: :unprocessable_entity
     end
   end

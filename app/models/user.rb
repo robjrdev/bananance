@@ -1,8 +1,8 @@
 class User < ApplicationRecord
 	include BCrypt
-	validates :first_name, presence: true, length: { maximum: 50 }
-	validates :last_name, presence: true, length: { maximum: 50 }
-	validates :email, presence: true, length: { maximum: 255 },
+	validates :first_name, presence: true, length: { maximum: 20 }
+	validates :last_name, presence: true, length: { maximum: 20 }
+	validates :email, presence: true,
 					  format: { with: URI::MailTo::EMAIL_REGEXP },
 					  uniqueness: { case_sensitive: false }
 	validates :password, presence: true, length: { minimum: 5 }

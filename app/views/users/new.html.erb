@@ -1,6 +1,10 @@
-<p id="notice"><%= notice%></p>
-<h1 class="text-4xl font-bold text-black mb-8">Sign Up</h1>
 
+<h1 class="text-4xl font-bold text-black mb-8">Sign Up</h1>
+<% if @user.errors.full_messages.any? %>
+  <% @user.errors.full_messages.each do |error_message| %>
+    <%= error_message if @user.errors.full_messages.first == error_message %> <br />
+  <% end %>
+<% end %>
 <form action="/users" method="post" class="bg-black text-white p-8 rounded-lg">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 

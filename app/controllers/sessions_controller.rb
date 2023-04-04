@@ -7,12 +7,16 @@ class SessionsController < ApplicationController
     #look up user in the database
     @user = User.find_by(email: user_params[:email])
     #Compare their password
-    
-    if @user && @user.is_password?(user_params[:password])
-      session[:user_id] = @user.id
-      redirect_to signup_path
+    if user_params[:email].presence && user_params[:password].presence
+      if @user && @user.is_password?(user_params[:password])
+        session[:user_id] = @user.id
+        redirect_to signup_path
+      else
+        flash.now[:notice] = "Email or password is incorrect"
+        render :new, status: :unprocessable_entity
+      end
     else
-      flash.now[:notice] = "Email or password is incorrect"
+      flash.now[:notice] = "Email or password should not be empty"
       render :new, status: :unprocessable_entity
     end
   end
