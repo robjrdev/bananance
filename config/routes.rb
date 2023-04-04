@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  get '/dashboard', to: 'pages#dashboard', as: :dashboard
+  get '/pending', to: 'pages#pending', as: :pending
+  get '/admin', to: 'pages#admin', as: :admin
+
   get 'sessions/new'
   get '/signup' => 'users#new'
   resources :users, only: [:create]

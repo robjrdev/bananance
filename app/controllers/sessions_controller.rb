@@ -10,7 +10,13 @@ class SessionsController < ApplicationController
     if user_params[:email].presence && user_params[:password].presence
       if @user && @user.is_password?(user_params[:password])
         session[:user_id] = @user.id
-        redirect_to signup_path
+        if @user.isadmin
+        redirect_to admin_path
+        elsif @user.status == 'pending'
+          redirect_to pending_path
+        else
+          redirect_to dashboard_path
+        end
       else
         flash.now[:notice] = "Email or password is incorrect"
         render :new, status: :unprocessable_entity
