@@ -18,4 +18,6 @@ class User < ApplicationRecord
 	def is_password?(raw)
 		Password.new(password_digest).is_password?(raw)
 	end
+
+	#try commit message
 end
