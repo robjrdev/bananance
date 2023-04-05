@@ -19,7 +19,7 @@ class PagesController < ApplicationController
 
   def admin
     @users = User.all
-    if logged_in? && !current_user.isadmin 
+    if logged_in? && !current_user.admin
       redirect_to dashboard_path
     end
   end

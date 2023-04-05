@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if user_params[:email].presence && user_params[:password].presence
       if @user && @user.is_password?(user_params[:password])
         session[:user_id] = @user.id
-        if @user.isadmin
+        if @user.admin
         redirect_to admin_path
         elsif @user.status == 'pending'
           redirect_to pending_path
