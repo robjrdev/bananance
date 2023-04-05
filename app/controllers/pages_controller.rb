@@ -1,4 +1,7 @@
 class PagesController < ApplicationController
+  before_action :initialize_iex_client
+
+
   def dashboard
     if logged_in?
       if current_user.status == "approved"

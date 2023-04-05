@@ -8,5 +8,9 @@ class ApplicationController < ActionController::Base
     def logged_in?
       current_user.present?
     end
+
+    def initialize_iex_client
+      @client = IEX::Api::Client.new
+    end
   end
   

@@ -1,5 +1,8 @@
 class User < ApplicationRecord
 	include BCrypt
+
+	has_many :stocks, dependent: :destroy
+	has_many :transactions
 	validates :first_name, presence: true, length: { maximum: 20 }
 	validates :last_name, presence: true, length: { maximum: 20 }
 	validates :email, presence: true,
