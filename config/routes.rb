@@ -10,6 +10,6 @@ Rails.application.routes.draw do
 
   get '/sign_in' => 'sessions#new'
   get '/sign_out' => 'sessions#destroy'
-  resources :sessions, ony: [:create]
+  resources :sessions, ony: [:create, :destroy]
 
 end
