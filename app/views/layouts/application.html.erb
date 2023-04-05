@@ -13,12 +13,14 @@
 
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
-    <% if current_user %>
-        Logged in as <%= current_user.email %>
-      <%= link_to "Log out", sign_out_path, method: :delete %>
-    <% else %>
-      <%= link_to "Log in", sign_in_path %>
-    <% end %>
+      <div class="fixed top-0 right-0 p-4 m-4">
+        <% if current_user %>
+          <%= current_user.email %>
+          <%= link_to "Log out", sign_out_path, method: :delete, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+        <% else %>
+          <%= link_to "Log in", sign_in_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+        <% end %>
+      </div>
     <%= yield%>
     </main>
   </body>

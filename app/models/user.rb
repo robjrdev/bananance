@@ -7,6 +7,8 @@ class User < ApplicationRecord
 					  uniqueness: { case_sensitive: false }
 	validates :password, presence: true, length: { minimum: 5 }
 
+	STATUS = [:pending, :approved]
+
 	def password
 		@password
 	end
@@ -22,6 +24,8 @@ class User < ApplicationRecord
 	def admin?
 		self.isadmin == true
 	end
+
+	
 
 	#try commit message
 end
