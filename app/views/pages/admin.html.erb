@@ -1,4 +1,9 @@
 <p>Admin Dashboard</p>
+<% if flash[:error].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
 <% if @users.nil? %>
   <p>No users available</p>
 <% else %>
@@ -18,7 +23,9 @@
             <td class="border px-4 py-2"><%= user.email %></td>
             <td class="border px-4 py-2"><%= user.first_name %></td>
             <td class="border px-4 py-2"><%= user.last_name %></td>
-            <td class="border px-4 py-2"><%= user.status %></td>
+            <td class="border px-4 py-2"><%= button_to user.status, update_user_status_path(user), method: :patch %></td>
+           
+
           </tr>
         <% end %>
       <% end %>

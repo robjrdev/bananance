@@ -7,10 +7,11 @@ Rails.application.routes.draw do
   get 'sessions/new'
   get '/signup' => 'users#new'
   resources :users, only: [:create]
-  
 
   get '/sign_in' => 'sessions#new'
   get '/sign_out' => 'sessions#destroy'
-  resources :sessions, ony: [:create, :destroy]
+  resources :sessions, only: [:create, :destroy]
+
+  patch '/users/:id/update_status', to: 'users#update_status', as: 'update_user_status'
 
 end
