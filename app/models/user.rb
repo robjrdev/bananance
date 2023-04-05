@@ -19,5 +19,9 @@ class User < ApplicationRecord
 		Password.new(password_digest).is_password?(raw)
 	end
 
+	def admin?
+		self.isadmin == true
+	end
+
 	#try commit message
 end

