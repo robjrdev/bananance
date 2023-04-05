@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create, :destroy]
 
   patch '/users/:id/update_status', to: 'users#update_status', as: 'update_user_status'
-
+  get '/users/:id/edit' => 'users#edit', as: :edit_user
+  patch '/users/:id', to: 'users#update', as: :update_user
 end

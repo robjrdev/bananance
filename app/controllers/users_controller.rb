@@ -16,6 +16,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+  
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to admin_path
+    else
+      flash[:error] = @user.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
+    end
+  end
+  
+
   def update_status
     @user = User.find(params[:id])
     

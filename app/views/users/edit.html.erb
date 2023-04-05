@@ -1,13 +1,14 @@
+<h1>Edit User</h1>
 
-<h1 class="text-4xl font-bold text-black mb-8">Sign Up</h1>
+<h1 class="text-4xl font-bold text-black mb-8">Edit User</h1>
 <% if @user.errors.full_messages.any? %>
   <% @user.errors.full_messages.each do |error_message| %>
     <%= error_message if @user.errors.full_messages.first == error_message %> <br />
   <% end %>
 <% end %>
-<form action="/users" method="post" class="bg-black text-white p-8 rounded-lg">
+<form action="<%= update_user_path(@user) %>" method="post" class="bg-black text-white p-8 rounded-lg">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
+  <input type="hidden" name="_method" value="patch">
   <div class="mb-4">
     <label for="first_name" class="block font-bold mb-2">First Name</label>
     <input type="text" id="first_name" name="user[first_name]" value="<%= @user.first_name %>" class="px-3 py-2 bg-gray-700 rounded-md w-full" />
@@ -25,8 +26,8 @@
 
   <div class="mb-4">
     <label for="password" class="block font-bold mb-2">Password</label>
-    <input type="password" id="password" name="user[password]" class="px-3 py-2 bg-gray-700 rounded-md w-full"/>
+    <input type="password" id="password" name="user[password]" class="px-3 py-2 bg-gray-700 rounded-md w-full" />
   </div>
   
-  <input type="submit" value="Register" class="bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" />
+  <input type="submit" value="Update" class="bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" />
 </form>
