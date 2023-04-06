@@ -3,9 +3,10 @@
 <%= form_with model: @user, url: update_user_path(@user),class: "bg-black text-white p-8 rounded-lg", method: :patch, local: true do |form| %>
   <% if @user.errors.full_messages.any? %>
     <% @user.errors.full_messages.each do |error_message| %>
-      <%= error_message if @user.errors.full_messages.first == error_message %> <br />
+      <%= error_message if @user.errors.full_messages.first == error_message %>
     <% end %>
   <% end %>
+
   
   <div class="mb-4">
     <%= form.label :first_name, class: "block font-bold mb-2" %>
