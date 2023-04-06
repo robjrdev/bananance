@@ -10,7 +10,7 @@ class PagesController < ApplicationController
         redirect_to pending_path
       end
     else
-      redirect_to sign_in_path # or some other path if you prefer
+      redirect_to sign_in_path
     end
   end
 

@@ -25,8 +25,4 @@ class User < ApplicationRecord
 	def is_admin?
 		self.admin == true
 	end
-
-	
-
-	#try commit message
 end
