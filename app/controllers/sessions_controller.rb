@@ -4,14 +4,15 @@ class SessionsController < ApplicationController
   end
 
   def create
-    #look up user in the database
+    # look up user in the database
     @user = User.find_by(email: user_params[:email])
-    #Compare their password
+    
+    # check if user exists and password is correct
     if user_params[:email].presence && user_params[:password].presence
       if @user && @user.is_password?(user_params[:password])
         session[:user_id] = @user.id
         if @user.admin
-        redirect_to admin_path
+          redirect_to admin_path
         elsif @user.status == 'pending'
           redirect_to pending_path
         else
@@ -26,6 +27,7 @@ class SessionsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+  
 
   def destroy
     session[:user_id] = nil
