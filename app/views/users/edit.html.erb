@@ -1,38 +1,36 @@
-<h1>Edit User</h1>
-
 <h1 class="text-4xl font-bold text-black mb-8">Edit User</h1>
-<% if @user.errors.full_messages.any? %>
-  <% @user.errors.full_messages.each do |error_message| %>
-    <%= error_message if @user.errors.full_messages.first == error_message %> <br />
+
+<%= form_with model: @user, url: update_user_path(@user),class: "bg-black text-white p-8 rounded-lg", method: :patch, local: true do |form| %>
+  <% if @user.errors.full_messages.any? %>
+    <% @user.errors.full_messages.each do |error_message| %>
+      <%= error_message if @user.errors.full_messages.first == error_message %> <br />
+    <% end %>
   <% end %>
-<% end %>
-<form action="<%= update_user_path(@user) %>" method="post" class="bg-black text-white p-8 rounded-lg">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <input type="hidden" name="_method" value="patch">
+  
   <div class="mb-4">
-    <label for="first_name" class="block font-bold mb-2">First Name</label>
-    <input type="text" id="first_name" name="user[first_name]" value="<%= @user.first_name %>" class="px-3 py-2 bg-gray-700 rounded-md w-full" />
+    <%= form.label :first_name, class: "block font-bold mb-2" %>
+    <%= form.text_field :first_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
   </div>
 
   <div class="mb-4">
-    <label for="last_name" class="block font-bold mb-2">Last Name</label>
-    <input type="text" id="last_name" name="user[last_name]" value="<%= @user.last_name %>" class="px-3 py-2 bg-gray-700 rounded-md w-full" />
+    <%= form.label :last_name, class: "block font-bold mb-2" %>
+    <%= form.text_field :last_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
   </div>
 
   <div class="mb-4">
-    <label for="email" class="block font-bold mb-2">Email</label>
-    <input type="email" id="email" name="user[email]" value="<%= @user.email %>" class="px-3 py-2 bg-gray-700 rounded-md w-full" />
+    <%= form.label :email, class: "block font-bold mb-2" %>
+    <%= form.email_field :email, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
   </div>
 
   <div class="mb-4">
-    <label for="password" class="block font-bold mb-2">Password</label>
-    <input type="password" id="password" name="user[password]" class="px-3 py-2 bg-gray-700 rounded-md w-full" />
+    <%= form.label :password, class: "block font-bold mb-2" %>
+    <%= form.password_field :password, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
   </div>
 
   <div class="mb-4">
-    <label for="password_confirmation" class="block font-bold mb-2">Password Confirmation</label>
-    <input type="password" id="password_confirmation" name="user[password_confirmation]" class="px-3 py-2 bg-gray-700 rounded-md w-full" />
+    <%= form.label :password_confirmation, class: "block font-bold mb-2" %>
+    <%= form.password_field :password_confirmation, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
   </div>
   
-  <input type="submit" value="Update" class="bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" />
-</form>
+  <%= form.submit "Update", class: "bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" %>
+<% end %>
