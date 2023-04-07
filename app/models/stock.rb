@@ -1,6 +1,8 @@
 class Stock < ApplicationRecord
-    belongs_to :user
-    validates :user_id, presence: true
-    validates :symbol, presence: true, uniqueness: true
-    validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+    has_many :transactions
+    has_many :users, through: :transactions
+    has_many :user_stocks, dependent: :delete_all
+
+    validates :symbol, :name, presence: true
+    validates :symbol, uniqueness: true
 end
