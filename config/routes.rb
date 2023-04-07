@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+
+  scope '/dashboard' do
+    get '/stocks', to: 'stocks#index', as: :stocks_index
+  end
+
   get '/dashboard', to: 'pages#dashboard', as: :dashboard
   get '/pending', to: 'pages#pending', as: :pending
   get '/admin', to: 'pages#admin', as: :admin
