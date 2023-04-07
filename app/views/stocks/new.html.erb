@@ -1,0 +1,14 @@
+<p>search stock</p>
+
+<%= form_with scope: @stock, url: stocks_search_path do |f| %>
+  <div class="form-outline mb-4">
+    <%=
+      f.text_field :symbol,
+                   onkeyup: 'this.value = this.value.toUpperCase();',
+                   placeholder: 'AMZN, TSLA, ...'
+    %>
+  </div>
+  <div class="col text-center">
+    <%= f.submit 'Search' %>
+  </div>
+<% end %>
