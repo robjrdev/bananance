@@ -1,3 +1,6 @@
 <%= @stock.name %>
 <%= @stock.symbol %>
 <%= @quote.latest_price %>
+
+<%= link_to 'buy', buy_stock_path(@stock.symbol) %>
+<%= link_to 'sell', sell_stock_path(@stock.symbol) %>

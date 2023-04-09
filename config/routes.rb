@@ -7,6 +7,8 @@ Rails
       get '/stocks/search', to: 'stocks#new', as: :stocks_new
       get '/stocks/:symbol', to: 'stocks#show', as: :stocks_show
       post '/stocks', to: 'stocks#search', as: :stocks_search
+      get '/stocks/:symbol/buy', to: 'transactions#buy_stock', as: :buy_stock
+      get '/stocks/:symbol/sell', to: 'transactions#sell_stock', as: :sell_stock
     end
 
     get '/dashboard', to: 'pages#dashboard', as: :dashboard
@@ -15,7 +17,7 @@ Rails
 
     get 'sessions/new'
     get '/signup' => 'users#new'
-    resources :users, only: [:create, :destroy]
+    resources :users, only: %i[create destroy]
 
     get '/sign_in' => 'sessions#new'
     get '/sign_out' => 'sessions#destroy'
