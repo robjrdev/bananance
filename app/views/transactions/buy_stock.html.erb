@@ -4,7 +4,7 @@
 <p id="latest-price"><%= @quote.latest_price %></p>
 <%= form_with scope: @transaction, url: save_transaction_path do |form| %>
   <%= form.hidden_field :stock_id, value: @stock.id %>
-  <%= form.hidden_field :transaction_type, value: :buy %>
+  <%= form.hidden_field :type, value: :buy %>
   <%= form.hidden_field :price_per_quantity, value: @quote.latest_price %>
   <%=
     form.number_field :amount,
