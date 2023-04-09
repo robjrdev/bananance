@@ -1,5 +1,36 @@
+<p>BUY STOCK</p>
 <p><%= @stock.symbol %></p>
 <p><%= @stock.name %></p>
-<p><%= @quote.inspect %></p>
-<%= form_with scope: @transaction do |form| %>
+<p id="latest-price"><%= @quote.latest_price %></p>
+<%= form_with scope: @transaction, url: save_transaction_path do |form| %>
+  <%= form.hidden_field :stock_id, value: @stock.id %>
+  <%= form.hidden_field :transaction_type, value: 'buy' %>
+  <%= form.hidden_field :price_per_quantity, value: @quote.latest_price %>
+  <%=
+    form.number_field :amount,
+                      step: :any,
+                      onkeyup: 'convertCurrency()',
+                      id: 'amount'
+  %>
+  <p id="quantity-preview"></p>
+  <!-- <%= form.hidden_field :quantity, step: :any, id: 'quantity' %> -->
+  <%= form.submit 'buy now' %>
 <% end %>
+
+<script>
+  const amountField = document.querySelector("#amount");
+  const latestPrice = document.querySelector("#latest-price");
+  //   const quantity = document.querySelector("#quantity");
+  const quantityPreview = document.querySelector("#quantity-preview");
+  function convertCurrency() {
+    // console.log(amountField);
+    // console.log(latestPrice.textContent);
+    // console.log(quantity.textContent);
+    // quantity.value =
+    //   parseInt(amountField.value) / parseInt(latestPrice.textContent);
+    // quantityPreview.textContent = Number(quantity.value).toFixed(2);
+    quantityPreview.textContent = (
+      parseInt(amountField.value) / parseInt(latestPrice.textContent)
+    ).toFixed(2);
+  }
+</script>

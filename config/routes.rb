@@ -9,6 +9,9 @@ Rails
       post '/stocks', to: 'stocks#search', as: :stocks_search
       get '/stocks/:symbol/buy', to: 'transactions#buy_stock', as: :buy_stock
       get '/stocks/:symbol/sell', to: 'transactions#sell_stock', as: :sell_stock
+      post '/stocks/:symbol',
+           to: 'transactions#save_transaction',
+           as: :save_transaction
     end
 
     get '/dashboard', to: 'pages#dashboard', as: :dashboard

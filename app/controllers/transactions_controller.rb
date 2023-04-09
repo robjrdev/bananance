@@ -1,5 +1,7 @@
 class TransactionsController < ApplicationController
-  before_action :initialize_iex_client, :set_stock
+  before_action :initialize_iex_client, except: [:save_transaction]
+  before_action :set_stock
+  before_action :quote_stock, except: [:save_transaction]
 
   def buy_stock
     @transaction = Transaction.new
@@ -10,6 +12,30 @@ class TransactionsController < ApplicationController
     @user_stock = current_user.user_stocks.find_or_initialize_by(stock: @stock)
   end
 
+  def save_transaction
+    @transaction = current_user.transactions.build(transaction_params)
+
+    amount = transaction_params[:amount].to_f
+    price_per_quantity = transaction_params[:price_per_quantity].to_f
+    quantity = amount / price_per_quantity
+    @transaction.quantity = quantity
+
+    @user_stock = current_user.user_stocks.find_or_create_by(stock: @stock)
+    updated_quantity = @transaction.update_stock_quantity(@user_stock.quantity)
+
+    if @transaction.save &&
+         @user_stock.update(stock: @stock, quantity: updated_quantity)
+      redirect_to stocks_show_path
+    else
+      if @transaction.buy?
+        redirect_to :buy_stock
+      else
+        p @transaction.errors.full_messages
+        redirect_to :sell_stock
+      end
+    end
+  end
+
   private
 
   def set_stock
@@ -18,5 +44,17 @@ class TransactionsController < ApplicationController
 
   def quote_stock
     @quote = @client.quote(@stock.symbol)
+  end
+
+  def transaction_params
+    params
+      .require(:transaction)
+      .permit(
+        :transaction_type,
+        :quantity,
+        :price_per_quantity,
+        :stock_id,
+        :amount,
+      )
   end
 end
