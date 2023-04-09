@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+    before_action :require_login
     helper_method :current_user, :logged_in?
   
     def current_user
@@ -7,6 +8,16 @@ class ApplicationController < ActionController::Base
   
     def logged_in?
       current_user.present?
+    end
+
+    def require_login
+      unless current_user || allowed_pages.include?(request.path)
+        redirect_to root_path
+      end
+    end
+
+    def allowed_pages
+      [root_path, signup_path]
     end
 
     def initialize_iex_client
