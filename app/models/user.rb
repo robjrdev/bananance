@@ -6,14 +6,14 @@ class User < ApplicationRecord
 	has_many :stocks, dependent: :destroy
 	has_many :transactions
   
-	validates :first_name, presence: true, length: { maximum: 20 }
-	validates :last_name, presence: true, length: { maximum: 20 }
-	validates :email, presence: true,
-					  format: { with: URI::MailTo::EMAIL_REGEXP },
-					  uniqueness: { case_sensitive: false }
-	validates :password, presence: true, length: { minimum: 5 }
-	validates :password_confirmation, presence: true, on: :create
-	validate :passwords_match
+	# validates :first_name, presence: true, length: { maximum: 20 }
+	# validates :last_name, presence: true, length: { maximum: 20 }
+	# validates :email, presence: true,
+	# 				  format: { with: URI::MailTo::EMAIL_REGEXP },
+	# 				  uniqueness: { case_sensitive: false }
+	# validates :password, presence: true, length: { minimum: 5 }
+	# validates :password_confirmation, presence: true, on: :create
+	# validate :passwords_match
 	
   
 	def password

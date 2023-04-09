@@ -1,5 +1,5 @@
 <h1 class="text-4xl font-bold text-black mb-8">Sign Up</h1>
-<%= form_with model: @user, url: '/users', class: "bg-black text-white p-8 rounded-lg" do |f| %>
+<%= form_with model: @user, url: users_path, class: "bg-black text-white p-8 rounded-lg" do |f| %>
   <% if @user.errors.full_messages.any? %>
     <% @user.errors.full_messages.each do |error_message| %>
       <%= error_message if @user.errors.full_messages.first == error_message %>

@@ -15,7 +15,7 @@ Rails
 
     get 'sessions/new'
     get '/signup' => 'users#new'
-    resources :users, only: [:create]
+    resources :users, only: [:create, :destroy]
 
     get '/sign_in' => 'sessions#new'
     get '/sign_out' => 'sessions#destroy'

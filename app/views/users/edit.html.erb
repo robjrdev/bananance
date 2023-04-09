@@ -23,15 +23,5 @@
     <%= form.email_field :email, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :password, class: "block font-bold mb-2" %>
-    <%= form.password_field :password, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :password_confirmation, class: "block font-bold mb-2" %>
-    <%= form.password_field :password_confirmation, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
-  </div>
-  
   <%= form.submit "Update", class: "bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" %>
 <% end %>
