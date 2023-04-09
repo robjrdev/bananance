@@ -1,4 +1,5 @@
 <p>search stock</p>
+<%= current_user.user_stocks %>
 
 <%= form_with scope: @stock, url: stocks_search_path do |f| %>
   <div class="form-outline mb-4">
