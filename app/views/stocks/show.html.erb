@@ -1,6 +1,11 @@
-<%= @stock.name %>
-<%= @stock.symbol %>
-<%= @quote.latest_price %>
+<p><%= @stock.name %></p>
+<p><%= @stock.symbol %></p>
+<p><%= @quote.latest_price %></p>
+
+<p>
+  you own
+  <span><%= "#{@shares} share#{'s' if @shares > 0 && @shares < 1}" %></span>
+</p>
 
 <%= link_to 'buy', buy_stock_path(@stock.symbol) %>
 <%= link_to 'sell', sell_stock_path(@stock.symbol) %>

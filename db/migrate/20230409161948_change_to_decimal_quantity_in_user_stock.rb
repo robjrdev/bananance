@@ -1,0 +1,5 @@
+class ChangeToDecimalQuantityInUserStock < ActiveRecord::Migration[7.0]
+  def change
+    change_column :user_stocks, :quantity, :decimal
+  end
+end

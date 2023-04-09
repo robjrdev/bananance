@@ -5,6 +5,8 @@ class TransactionsController < ApplicationController
 
   def buy_stock
     @transaction = Transaction.new
+    @user_stock = current_user.user_stocks.find_by(stock: @stock)
+    @shares = @user_stock.try(:quantity) || 0
   end
 
   def sell_stock
