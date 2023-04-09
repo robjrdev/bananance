@@ -13,22 +13,14 @@
                       id: 'amount'
   %>
   <p id="quantity-preview"></p>
-  <!-- <%= form.hidden_field :quantity, step: :any, id: 'quantity' %> -->
   <%= form.submit 'buy now' %>
 <% end %>
 
 <script>
   const amountField = document.querySelector("#amount");
   const latestPrice = document.querySelector("#latest-price");
-  //   const quantity = document.querySelector("#quantity");
   const quantityPreview = document.querySelector("#quantity-preview");
   function convertCurrency() {
-    // console.log(amountField);
-    // console.log(latestPrice.textContent);
-    // console.log(quantity.textContent);
-    // quantity.value =
-    //   parseInt(amountField.value) / parseInt(latestPrice.textContent);
-    // quantityPreview.textContent = Number(quantity.value).toFixed(2);
     quantityPreview.textContent = (
       parseInt(amountField.value) / parseInt(latestPrice.textContent)
     ).toFixed(2);

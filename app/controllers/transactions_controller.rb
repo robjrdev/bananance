@@ -19,6 +19,7 @@ class TransactionsController < ApplicationController
     price_per_quantity = transaction_params[:price_per_quantity].to_f
     quantity = amount / price_per_quantity
     @transaction.quantity = quantity
+    @transaction.symbol = @stock.symbol
 
     @user_stock = current_user.user_stocks.find_or_create_by(stock: @stock)
     updated_quantity = @transaction.update_stock_quantity(@user_stock.quantity)
