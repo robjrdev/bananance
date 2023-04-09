@@ -1,11 +1,11 @@
 class Transaction < ApplicationRecord
   belongs_to :user
   belongs_to :stock
-  enum type: %i[buy sell]
+  enum category: %i[buy sell]
 
   attr_accessor :amount
 
-  validates :type, :price_per_quantity, :symbol, presence: true
+  validates :category, :price_per_quantity, :symbol, presence: true
   validates :amount, presence: true
   validates :quantity,
             presence: true,
