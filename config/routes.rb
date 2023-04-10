@@ -33,4 +33,7 @@ Rails
     patch '/users/:id', to: 'users#update', as: :update_user
 
     root to: 'sessions#new'
+
+     
   end
+

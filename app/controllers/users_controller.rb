@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login, only: [:create]
   def new
     @user = User.new
   end
@@ -7,6 +8,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.valid?
 				@user.save
+        NotificationMailer.with(user: @user).new_user(@user).deliver_later
+        NotificationMailer.with(user: @user).pending(@user).deliver_later
+        NotificationMailer.with(user: @user).admin_notification(@user).deliver_later
+        
 				redirect_to sign_in_path
     else
       #flash.now[:notice] = @user.errors.full_messages.to_sentence
@@ -33,7 +38,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     if @user.status == 'pending'
-     @user.update_attribute(:status, 'approved')
+      @user.update_attribute(:status, 'approved')
+      NotificationMailer.with(user: @user).aprroved.deliver_later
       redirect_to admin_path
     elsif
       @user.update_attribute(:status, 'pending')
