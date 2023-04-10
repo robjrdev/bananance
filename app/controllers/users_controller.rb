@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     
     if @user.status == 'pending'
       @user.update_attribute(:status, 'approved')
-      NotificationMailer.with(user: @user).aprroved.deliver_later
+      NotificationMailer.with(user: @user).aprroved(@user).deliver_later
       redirect_to admin_path
     elsif
       @user.update_attribute(:status, 'pending')
