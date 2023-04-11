@@ -11,3 +11,32 @@
 }
 
 */
+
+@layer base {
+  a:not([class*="button"]) {
+    @apply hover:text-yellow-400;
+  }
+}
+
+@layer components {
+  .yellow-button {
+    @apply bg-yellow-400 hover:bg-yellow-500 text-neutral-900 py-2 px-4 rounded cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .wrapper {
+    --max-width: 1200px;
+    --padding: 2rem;
+
+    width: min(var(--max-width), 100% - (var(--padding) * 2));
+    margin-inline: auto;
+  }
+
+  .form-label {
+    @apply block font-bold mb-2;
+  }
+  .form-field {
+    @apply px-3 py-2 border-black/10 dark:border-white/10 dark:bg-neutral-800/80 rounded-md w-full;
+  }
+}

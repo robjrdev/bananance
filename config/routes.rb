@@ -19,7 +19,7 @@ Rails
     get '/admin', to: 'pages#admin', as: :admin
 
     get 'sessions/new'
-    get '/signup' => 'users#new'
+    get '/signup' => 'users#new', :as => :signup
     resources :users, only: %i[create destroy]
 
     get '/sign_in' => 'sessions#new'
@@ -32,8 +32,5 @@ Rails
     get '/users/:id/edit' => 'users#edit', :as => :edit_user
     patch '/users/:id', to: 'users#update', as: :update_user
 
-    root to: 'sessions#new'
-
-     
+    root to: 'pages#index'
   end
-

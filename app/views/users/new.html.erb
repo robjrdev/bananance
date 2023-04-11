@@ -1,29 +1,51 @@
-<h1 class="text-4xl font-bold text-black mb-8">Sign Up</h1>
-<%= form_with model: @user, url: users_path, class: "bg-black text-white p-8 rounded-lg" do |f| %>
-  <% if @user.errors.full_messages.any? %>
-    <% @user.errors.full_messages.each do |error_message| %>
-      <%= error_message if @user.errors.full_messages.first == error_message %>
-    <% end %>
-  <% end %>
-  <div class="mb-4">
-    <%= f.label :first_name, class: "block font-bold mb-2" %>
-    <%= f.text_field :first_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full", id: "first_name" %>
+<section class="py-2">
+  <div class="wrapper | grid md:grid-cols-[750px,1fr]">
+    <div>
+      <h1 class="text-2xl font-semibold">
+        Start hoarding unspeakable amount of non-existing stocks.
+      </h1>
+      <h2>Create your account today!</h2>
+      <%= form_with model: @user, url: users_path, class: "w-[calc(100%_-_4rem)] mx-auto p-8 rounded-lg" do |f| %>
+        <div class="mb-4">
+          <%= f.label :first_name, class: 'form-label' %>
+          <%= f.text_field :first_name, class: 'form-field', id: 'first_name' %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :last_name, class: 'form-label' %>
+          <%= f.text_field :last_name, class: 'form-field', id: 'last_name' %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :email, class: 'form-label' %>
+          <%= f.email_field :email, class: 'form-field', id: 'email' %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :password, class: 'form-label' %>
+          <%= f.password_field :password, class: 'form-field', id: 'password' %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :password_confirmation, class: 'form-label' %>
+          <%=
+            f.password_field :password_confirmation,
+                             class: 'form-field',
+                             id: 'password_confirmation'
+          %>
+        </div>
+        <%= f.submit 'Register', class: 'yellow-button' %>
+      <% end %>
+    </div>
+    <div>
+      <ul class="text-red-400 p-4 text-sm">
+        <% if @user.errors.full_messages.any? %>
+          <% @user.errors.full_messages.each do |error_message| %>
+            <li><%= error_message %></li>
+          <% end %>
+        <% end %>
+      </ul>
+      <div
+        class="bg-neutral-200/80 grid place-items-center rounded-md min-h-[50vh]"
+      >
+        <p class="text-neutral-800">placeholder</p>
+      </div>
+    </div>
   </div>
-  <div class="mb-4">
-    <%= f.label :last_name, class: "block font-bold mb-2" %>
-    <%= f.text_field :last_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full", id: "last_name" %>
-  </div>
-  <div class="mb-4">
-    <%= f.label :email, class: "block font-bold mb-2" %>
-    <%= f.email_field :email, class: "px-3 py-2 bg-gray-700 rounded-md w-full", id: "email" %>
-  </div>
-  <div class="mb-4">
-    <%= f.label :password, class: "block font-bold mb-2" %>
-    <%= f.password_field :password, class: "px-3 py-2 bg-gray-700 rounded-md w-full", id: "password" %>
-  </div>
-  <div class="mb-4">
-    <%= f.label :password_confirmation, class: "block font-bold mb-2" %>
-    <%= f.password_field :password_confirmation, class: "px-3 py-2 bg-gray-700 rounded-md w-full", id: "password_confirmation" %>
-  </div>
-<%= f.submit "Register", class: "bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" %>
-<% end %>
+</section>
