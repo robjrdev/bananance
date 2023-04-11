@@ -1,5 +1,5 @@
 <section class="py-16">
-  <div class="wrapper | grid grid-cols-1 md:grid-cols-2">
+  <div class="wrapper | grid grid-cols-1 md:grid-cols-2 gap-8">
     <div class="grid gap-4">
       <h1 class="text-4xl font-bold">
         Buy, Trade, and Hold Millions <br />
@@ -16,5 +16,26 @@
     <div class="bg-neutral-200/80 grid place-items-center rounded-md">
       <p class="text-neutral-800">placeholder</p>
     </div>
+  </div>
+</section>
+<section>
+  <div class="wrapper">
+    <h2 class="text-4xl font-bold mb-12">Most Active Companies</h2>
+    <ul class="flex flex-col justify-start items-stretch gap-8">
+      <li>
+        <span>Name</span>
+      </li>
+      <% @active_market.each do |stock| %>
+        <li>
+          <span class="text-2xl">&#127820;</span>
+          <span class="text-2xl"><%= @client.logo(stock.symbol) %></span>
+          <span class="font-semibol"><%= stock.company_name %></span>
+          <span class="text-sm opacity-60"><%= stock.symbol %></span>
+          <span><%= stock.latest_price %></span>
+          <span><%= stock.change_percent_s %></span>
+          <span><%= stock.market_cap %></span>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </section>
