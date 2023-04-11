@@ -1,2 +1,31 @@
-<p>placeholder dahsboard page</p>
-
+<section>
+  <div class="wrapper">
+    <div
+      class="user-info | grid grid-cols-[auto_1fr] gap-8 bg-gray-200/20 rounded p-4 shadow-md"
+    >
+      <div
+        class="aspect-square max-w-[150px] rounded-full bg-red-900 grid place-items-center overflow-hidden"
+      >
+        <span class="text-8xl">&#127820;</span>
+      </div>
+      <div class="grid gap-4">
+        <div>
+          <p class="text-xl opacity-60">Estimated Balance</p>
+          <p class="text-5xl font-semibold opacity-80">
+            <span>&#8776;</span><span>$0.00</span>
+          </p>
+        </div>
+        <ul class="flex flex-wrap gap-12">
+          <li>
+            <p class="text-xs opacity-70">User Email</p>
+            <p class="text-sm"><%= current_user.email %></p>
+          </li>
+          <li>
+            <p class="text-xs opacity-70">Cash</p>
+            <p class="text-sm">$0.00</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

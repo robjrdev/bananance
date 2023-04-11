@@ -2,26 +2,62 @@
 <html>
   <head>
     <title>StockApp</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%=
+      stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload'
+    %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="">
-      <div class="fixed top-0 right-0 p-4 m-4">
-        <% if current_user %>
-          <%= current_user.email %>
-          <%= link_to "Log out", sign_out_path, method: :delete, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
-        <% else %>
-          <%= link_to "Log in", sign_in_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  <body
+    class="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-slate-100"
+  >
+    <header class="relative">
+      <div class="flex flex-wrap items-center gap-4 px-4 py-4">
+        <span class="text-4xl mt-[-4px] mr-[-14px]">&#128053;</span>
+        <%=
+          link_to 'Bananance',
+                  root_path,
+                  class: 'uppercase font-bold text-xl text-yellow-500'
+        %>
+        <% unless [signup_path, sign_in_path, sessions_path, users_path].include?(request.path) %>
+          <span class="font-thin text-2xl">|</span>
+          <%= link_to 'Market', root_path %>
+          <%= link_to 'Portfolio', root_path %>
+          <%= link_to 'Transactions', root_path %>
+          <%= link_to 'Conversion', root_path %>
         <% end %>
+        <div class="flex flex-wrap gap-4 items-center ml-auto">
+          <% if logged_in? %>
+            <p class="">
+              Hello, <span><%= current_user.first_name %></span>
+            </p>
+            <span class="font-thin text-2xl">|</span>
+            <%=
+              link_to 'Log Out',
+                      sign_out_path,
+                      method: :delete,
+                      class: 'font-light text-xs'
+            %>
+          <% else %>
+            <%= link_to 'Log In', sign_in_path, class: 'py-2 px-4 rounded' %>
+            <% unless request.path == signup_path %>
+              <%= link_to 'Register', signup_path, class: 'yellow-button' %>
+            <% end %>
+          <% end %>
+          <button type="button" class="ml-4 mr-2">
+            <span>&#127762;</span>
+            <span class="sr-only">Toggle Dark Mode</span>
+          </button>
+        </div>
       </div>
-    <%= yield%>
+    </header>
+    <main class="">
+      <%= yield %>
     </main>
   </body>
 </html>
