@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:create]
   def new
-    redirect_to dashboard_path if logged_in?
+    
+    redirect_to dashboard_path if logged_in? && current_user.admin == false
     @user = User.new
   end
 
