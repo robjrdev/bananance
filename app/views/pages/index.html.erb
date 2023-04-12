@@ -1,5 +1,5 @@
 <section class="py-16">
-  <div class="wrapper | grid grid-cols-1 md:grid-cols-2">
+  <div class="wrapper | grid grid-cols-1 md:grid-cols-2 gap-8">
     <div class="grid gap-4">
       <h1 class="text-4xl font-bold">
         Buy, Trade, and Hold Millions <br />
@@ -16,5 +16,53 @@
     <div class="bg-neutral-200/80 grid place-items-center rounded-md">
       <p class="text-neutral-800">placeholder</p>
     </div>
+  </div>
+</section>
+<section class="py-12">
+  <div class="wrapper">
+    <h2 class="text-4xl font-bold mb-12">Most Active Companies</h2>
+    <ul class="flex flex-col justify-start items-stretch">
+      <li
+        class="grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 text-sm opacity-60 px-4 py-2"
+      >
+        <span> </span>
+        <span>Name</span>
+        <span>Latest Price</span>
+        <span>24h Change</span>
+        <span>Market Cap</span>
+      </li>
+      <% @active_market.each do |stock| %>
+        <% cache stock do %>
+          <a
+            href="<%= stocks_search_path(stock.symbol) %>"
+            class="grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-700 p-4"
+          >
+            <span class="text-2xl">&#127820;</span>
+            <span class="font-semibold"><%= stock.company_name %>
+              <i class="text-sm opacity-60 not-italic"><%= stock.symbol %></i>
+            </span>
+            <span class="text-sm"><%=
+                number_to_currency(stock.latest_price, precision: 2)
+              %></span>
+            <span
+              class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+            >
+              <%= stock.change_percent_s %>
+            </span>
+            <span class="text-sm"><%=
+                convert_currency(stock.market_cap.to_i)
+              %></span>
+          </a>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</section>
+<section class="py-16 bg-neutral-200/20 dark:bg-neutral-950">
+  <div class="wrapper | text-center grid gap-12 justify-center">
+    <h2 class="font-bold text-4xl">Hoard bananas today!</h2>
+    <%=
+      link_to 'Sign Up Now', signup_path, class: 'yellow-button | font-semibold'
+    %>
   </div>
 </section>
