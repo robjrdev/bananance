@@ -27,5 +27,15 @@ class ApplicationController < ActionController::Base
         secret_token: 'sk_4fdc4b7b76d0465e8649b5367aa63018',
         endpoint: 'https://cloud.iexapis.com/v1', # use 'https://sandbox.iexapis.com/v1' for Sandbox
       )
+    # @client =
+    #   Rails
+    #     .cache
+    #     .fetch('iex_client', expires_in: 1.day) do
+    #       IEX::Api::Client.new(
+    #         publishable_token: 'pk_787827c9cdee408796d3f12c21a8eebb',
+    #         secret_token: 'sk_4fdc4b7b76d0465e8649b5367aa63018',
+    #         endpoint: 'https://cloud.iexapis.com/v1', # use 'https://sandbox.iexapis.com/v1' for Sandbox
+    #       )
+    #     end
   end
 end
