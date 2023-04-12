@@ -19,6 +19,7 @@
   you own
   <span><%= "#{@shares} share#{'s' if @shares > 0 && @shares < 1}" %></span>
 </p>
+<p>cash : <%= current_user.cash %></p>
 
 <script>
   const amountField = document.querySelector("#amount");

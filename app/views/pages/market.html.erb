@@ -7,7 +7,7 @@
         <ul>
           <% @active_market.take(3).each do |stock| %>
             <% cache stock do %>
-              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+              <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
                 <span class="font-semibold"><%= stock.symbol %></span>
                 <span class=""><%=
@@ -28,7 +28,7 @@
         <ul>
           <% @gainers_market.take(3).each do |stock| %>
             <% cache stock do %>
-              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+              <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
                 <span class="font-semibold"><%= stock.symbol %></span>
                 <span class=""><%=
@@ -49,7 +49,7 @@
         <ul>
           <% @top_volume_market.take(3).each do |stock| %>
             <% cache stock do %>
-              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+              <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
                 <span class="font-semibold"><%= stock.symbol %></span>
                 <span class=""><%=
@@ -70,7 +70,7 @@
         <ul>
           <% @losers_market.take(3).each do |stock| %>
             <% cache stock do %>
-              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+              <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
                 <span class="font-semibold"><%= stock.symbol %></span>
                 <span class=""><%=

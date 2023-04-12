@@ -24,7 +24,9 @@ class PagesController < ApplicationController
     redirect_to dashboard_path if current_user.status != 'pending'
   end
 
-  def market; end
+  def market
+    # market overview page
+  end
 
   def admin
     redirect_to dashboard_path if logged_in? && !current_user.admin

@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include BCrypt
 
-  attr_accessor :password_confirmation
+  attr_accessor :password_confirmation, :cash
 
   has_many :user_stocks, dependent: :delete_all
   has_many :stocks, through: :user_stocks
@@ -44,6 +44,5 @@ class User < ApplicationRecord
     self.admin == true
   end
 
-
-  #comment 
+  #comment
 end

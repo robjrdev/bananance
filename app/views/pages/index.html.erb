@@ -23,22 +23,19 @@
     <h2 class="text-4xl font-bold mb-12">Most Active Companies</h2>
     <ul class="flex flex-col justify-start items-stretch">
       <li
-        class="grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 text-sm opacity-60 px-4 py-2"
+        class="grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 text-sm opacity-60 px-4 py-2 text-center"
       >
         <span> </span>
-        <span>Name</span>
+        <span class="text-left">Name</span>
         <span>Latest Price</span>
         <span>24h Change</span>
         <span>Market Cap</span>
       </li>
       <% @active_market.each do |stock| %>
         <% cache stock do %>
-          <a
-            href="<%= stocks_search_path(stock.symbol) %>"
-            class="grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-700 p-4"
-          >
+          <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-700 p-4 w-full" do %>
             <span class="text-2xl">&#127820;</span>
-            <span class="font-semibold"><%= stock.company_name %>
+            <span class="font-semibold text-left"><%= stock.company_name %>
               <i class="text-sm opacity-60 not-italic"><%= stock.symbol %></i>
             </span>
             <span class="text-sm"><%=
@@ -52,7 +49,7 @@
             <span class="text-sm"><%=
                 convert_currency(stock.market_cap.to_i)
               %></span>
-          </a>
+          <% end %>
         <% end %>
       <% end %>
     </ul>
