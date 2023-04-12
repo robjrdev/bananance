@@ -22,7 +22,7 @@
           </li>
           <li>
             <p class="text-xs opacity-70">Cash</p>
-            <p class="text-sm">$<%= current_user.cash%></p>
+            <p class="text-sm"><%= number_to_currency(current_user.cash, precision: 2)%></p>
             <%= link_to "Deposit", user_deposit_path(current_user)%>
           </li>
         </ul>
