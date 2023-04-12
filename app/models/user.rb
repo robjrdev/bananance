@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include BCrypt
 
-  attr_accessor :password_confirmation, :cash
+  attr_accessor :password_confirmation
 
   has_many :user_stocks, dependent: :delete_all
   has_many :stocks, through: :user_stocks

@@ -23,9 +23,9 @@ class Transaction < ApplicationRecord
     @price = price_per_quantity * quantity
 
     if self.buy?
-      user.update(cash: (user.cash - @price))
+      user.update_attribute(:cash, (user.cash - @price))
     else
-      user.update(cash: (user.cash + @price))
+      user.update_attribute(:cash, (user.cash + @price))
     end
   end
 end
