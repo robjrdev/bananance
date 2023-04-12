@@ -1,5 +1,6 @@
 class StocksController < ApplicationController
   before_action :initialize_iex_client
+  before_action :set_market_list
 
   def index
     @trending_stocks = @client.stock_market_list(:mostactive)

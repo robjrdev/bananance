@@ -34,14 +34,16 @@
       <% @active_market.each do |stock| %>
         <% cache stock do %>
           <a
-            href="<%= stocks_show_path(stock.symbol) %>"
+            href="<%= stocks_search_path(stock.symbol) %>"
             class="grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-700 p-4"
           >
             <span class="text-2xl">&#127820;</span>
-            <span class="font-semibol"><%= stock.company_name %>
+            <span class="font-semibold"><%= stock.company_name %>
               <i class="text-sm opacity-60 not-italic"><%= stock.symbol %></i>
             </span>
-            <span class="text-sm">$<%= stock.latest_price %></span>
+            <span class="text-sm"><%=
+                number_to_currency(stock.latest_price, precision: 2)
+              %></span>
             <span
               class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
             >
@@ -59,13 +61,8 @@
 <section class="py-16 bg-neutral-200/20 dark:bg-neutral-950">
   <div class="wrapper | text-center grid gap-12 justify-center">
     <h2 class="font-bold text-4xl">Hoard bananas today!</h2>
-    <%= link_to 'Sign Up Now', signup_path, class: 'yellow-button' %>
-  </div>
-</section>
-<section class="">
-  <div class="wrapper | border-t-2 border-neutral-400/20 py-4">
-    <p class="text-center text-xs opacity-60">
-      Bananance © <%= Time.now.year %>
-    </p>
+    <%=
+      link_to 'Sign Up Now', signup_path, class: 'yellow-button | font-semibold'
+    %>
   </div>
 </section>

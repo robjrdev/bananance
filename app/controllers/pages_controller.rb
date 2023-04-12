@@ -1,16 +1,10 @@
 class PagesController < ApplicationController
   before_action :initialize_iex_client
+  before_action :set_market_list, only: %i[index market]
 
   def index
     #home page
     redirect_to dashboard_path if logged_in?
-
-    @active_market =
-      Rails
-        .cache
-        .fetch('active_stock_market_list', expires_in: 45.minutes) do
-          @client.stock_market_list(:mostactive)
-        end
   end
 
   def dashboard
@@ -29,6 +23,8 @@ class PagesController < ApplicationController
     # pending page
     redirect_to dashboard_path if current_user.status != 'pending'
   end
+
+  def market; end
 
   def admin
     redirect_to dashboard_path if logged_in? && !current_user.admin

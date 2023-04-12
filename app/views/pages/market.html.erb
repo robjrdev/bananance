@@ -1,0 +1,91 @@
+<section class="py-8">
+  <div class="wrapper">
+    <h1 class="text-4xl font-bold mb-8">Market Overview</h1>
+    <div class="flex flex-wrap justify-between items-start gap-8">
+      <div class="market-list-card">
+        <p>Most Active</p>
+        <ul>
+          <% @active_market.take(3).each do |stock| %>
+            <% cache stock do %>
+              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+                <span class="">&#127820;</span>
+                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class=""><%=
+                    number_to_currency(stock.latest_price, precision: 2)
+                  %></span>
+                <span
+                  class="<%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                >
+                  <%= stock.change_percent_s %>
+                </span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+      <div class="market-list-card">
+        <p>Top Gainers</p>
+        <ul>
+          <% @gainers_market.take(3).each do |stock| %>
+            <% cache stock do %>
+              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+                <span class="">&#127820;</span>
+                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class=""><%=
+                    number_to_currency(stock.latest_price, precision: 2)
+                  %></span>
+                <span
+                  class="<%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                >
+                  <%= stock.change_percent_s %>
+                </span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+      <div class="market-list-card">
+        <p>Top Volume</p>
+        <ul>
+          <% @top_volume_market.take(3).each do |stock| %>
+            <% cache stock do %>
+              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+                <span class="">&#127820;</span>
+                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class=""><%=
+                    number_to_currency(stock.latest_price, precision: 2)
+                  %></span>
+                <span
+                  class="<%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                >
+                  <%= stock.change_percent_s %>
+                </span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+      <div class="market-list-card">
+        <p>Losers</p>
+        <ul>
+          <% @losers_market.take(3).each do |stock| %>
+            <% cache stock do %>
+              <%= button_to stocks_search_path(stock.symbol), method: :post do %>
+                <span class="">&#127820;</span>
+                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class=""><%=
+                    number_to_currency(stock.latest_price, precision: 2)
+                  %></span>
+                <span
+                  class="<%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                >
+                  <%= stock.change_percent_s %>
+                </span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

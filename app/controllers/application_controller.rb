@@ -56,4 +56,34 @@ class ApplicationController < ActionController::Base
     #       )
     #     end
   end
+
+  def set_market_list
+    @active_market =
+      Rails
+        .cache
+        .fetch('active_stock_market_list', expires_in: 45.minutes) do
+          @client.stock_market_list(:mostactive)
+        end
+
+    @gainers_market =
+      Rails
+        .cache
+        .fetch('gainers_market_list', expires_in: 45.minutes) do
+          @client.stock_market_list(:gainers)
+        end
+
+    @top_volume_market =
+      Rails
+        .cache
+        .fetch('top_volume_market_list', expires_in: 45.minutes) do
+          @client.stock_market_list(:iexvolume)
+        end
+
+    @losers_market =
+      Rails
+        .cache
+        .fetch('losers_market_list', expires_in: 45.minutes) do
+          @client.stock_market_list(:losers)
+        end
+  end
 end

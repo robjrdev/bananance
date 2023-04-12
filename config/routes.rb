@@ -6,7 +6,7 @@ Rails
       get '/stocks', to: 'stocks#index', as: :stocks_index
       get '/stocks/search', to: 'stocks#new', as: :stocks_new
       get '/stocks/:symbol', to: 'stocks#show', as: :stocks_show
-      post '/stocks', to: 'stocks#search', as: :stocks_search
+      post '/stocks/', to: 'stocks#search', as: :stocks_search
       get '/stocks/:symbol/buy', to: 'transactions#buy_stock', as: :buy_stock
       get '/stocks/:symbol/sell', to: 'transactions#sell_stock', as: :sell_stock
       post '/stocks/:symbol',
@@ -14,6 +14,7 @@ Rails
            as: :save_transaction
     end
 
+    get '/markets', to: 'pages#market', as: :market
     get '/dashboard', to: 'pages#dashboard', as: :dashboard
     get '/pending', to: 'pages#pending', as: :pending
     get '/admin', to: 'pages#admin', as: :admin
