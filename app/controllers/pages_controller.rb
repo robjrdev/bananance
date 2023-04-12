@@ -5,12 +5,7 @@ class PagesController < ApplicationController
     #home page
     redirect_to dashboard_path if logged_in?
 
-    @active_market =
-      Rails
-        .cache
-        .fetch('mostactive_stock_market_list', expires_in: 5.minutes) do
-          @client.stock_market_list(:mostactive)
-        end
+    @active_market = @client.stock_market_list(:mostactive)
   end
 
   def dashboard
