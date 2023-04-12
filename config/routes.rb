@@ -29,8 +29,10 @@ Rails
     patch '/users/:id/update_status',
           to: 'users#update_status',
           as: 'update_user_status'
-    get '/users/:id/edit' => 'users#edit', :as => :edit_user
+    get '/users/:id/edit' => 'users#edit', as: :edit_user
     patch '/users/:id', to: 'users#update', as: :update_user
+    get '/users/:id/deposit' => 'users#deposit', as: :user_deposit
+    post '/users/:id/' => 'users#deposit_money', as: :user_deposit_money
 
     root to: 'pages#index'
   end

@@ -1,10 +1,17 @@
 <section class="py-2">
   <div class="wrapper | grid md:grid-cols-[750px,1fr]">
     <div>
-      <h1 class="text-2xl font-semibold">
-        Start hoarding unspeakable amount of non-existing stocks.
-      </h1>
-      <h2>Create your account today!</h2>
+    <%if !logged_in?%>
+        <h1 class="text-2xl font-semibold">
+          Start hoarding unspeakable amount of non-existing stocks.
+        </h1>
+        <h2>Create your account today!</h2>
+    <%else%>
+      <div class='flex justify-between w-[calc(100%_-_4rem)] mx-auto p-8 rounded-lg'>
+        <h1 class="text-2xl font-semibold">Create monkey!</h1>
+        <%= link_to "Cancel", admin_path, class: 'yellow-button'%>
+      </div>
+    <%end%>
       <%= form_with model: @user, url: users_path, class: "w-[calc(100%_-_4rem)] mx-auto p-8 rounded-lg" do |f| %>
         <div class="mb-4">
           <%= f.label :first_name, class: 'form-label' %>
@@ -24,13 +31,14 @@
         </div>
         <div class="mb-4">
           <%= f.label :password_confirmation, class: 'form-label' %>
-          <%=
-            f.password_field :password_confirmation,
-                             class: 'form-field',
-                             id: 'password_confirmation'
+          <%= f.password_field :password_confirmation, class: 'form-field',id: 'password_confirmation'
           %>
         </div>
-        <%= f.submit 'Register', class: 'yellow-button' %>
+        <% if logged_in? %>
+          <%= f.submit "Create", class: 'yellow-button' %>
+        <% else %>
+          <%= f.submit "Register", class: 'yellow-button' %>
+        <% end %>
       <% end %>
     </div>
     <div>

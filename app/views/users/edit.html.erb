@@ -1,27 +1,37 @@
-<h1 class="text-4xl font-bold text-black mb-8">Edit User</h1>
+<div class="flex w-full justify-center ">
+	<%= form_with model: @user, url: update_user_path(@user),class: "mt-10 w-2/4 bg-black text-white p-8 rounded-lg", method: :patch, local: true do |form| %>
+	<h1 class="text-4xl font-bold text-yellow-500 mb-8">Edit User</h1>
+		<% if @user.errors.full_messages.any? %>
+			<% @user.errors.full_messages.each do |error_message| %>
+				<%= error_message if @user.errors.full_messages.first == error_message %>
+			<% end %>
+		<% end %>
 
-<%= form_with model: @user, url: update_user_path(@user),class: "bg-black text-white p-8 rounded-lg", method: :patch, local: true do |form| %>
-  <% if @user.errors.full_messages.any? %>
-    <% @user.errors.full_messages.each do |error_message| %>
-      <%= error_message if @user.errors.full_messages.first == error_message %>
-    <% end %>
-  <% end %>
+		
+		<div class="mb-4">
+			<%= form.label :first_name, class: "block font-bold mb-2" %>
+			<%= form.text_field :first_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
+		</div>
 
-  
-  <div class="mb-4">
-    <%= form.label :first_name, class: "block font-bold mb-2" %>
-    <%= form.text_field :first_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
-  </div>
+		<div class="mb-4">
+			<%= form.label :last_name, class: "block font-bold mb-2" %>
+			<%= form.text_field :last_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
+		</div>
 
-  <div class="mb-4">
-    <%= form.label :last_name, class: "block font-bold mb-2" %>
-    <%= form.text_field :last_name, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
-  </div>
+		<div class="mb-4">
+			<%= form.label :email, class: "block font-bold mb-2" %>
+			<%= form.email_field :email, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
+		</div>
 
-  <div class="mb-4">
-    <%= form.label :email, class: "block font-bold mb-2" %>
-    <%= form.email_field :email, class: "px-3 py-2 bg-gray-700 rounded-md w-full" %>
-  </div>
-
-  <%= form.submit "Update", class: "bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" %>
-<% end %>
+		<div class="mb-4">
+			<%= form.hidden_field :password, value:@user.password_digest,class: 'form-field', id: 'password' %>
+		</div>
+		<div class="mb-4">
+			<%=form.hidden_field :password_confirmation, value:@user.password_digest, class: 'form-field',id:'password_confirmation' %>
+		</div>
+		<div class="flex justify-end gap-2">
+			<%= form.submit "Update", class: "yellow-button" %>
+			<%= link_to "Cancel", admin_path, class: 'bg-red-800 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer'%>
+		</div>
+	<% end %>
+</div>

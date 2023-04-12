@@ -10,12 +10,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.valid?
       @user.save
-      NotificationMailer.with(user: @user).new_user(@user).deliver_later
-      NotificationMailer.with(user: @user).pending(@user).deliver_later
-      NotificationMailer
-        .with(user: @user)
-        .admin_notification(@user)
-        .deliver_later
+      NotificationMailer.new_user(@user).deliver_later
+      NotificationMailer.pending(@user).deliver_later
+      NotificationMailer.admin_notification(@user).deliver_later
 
       redirect_to sign_in_path
     else
@@ -43,7 +40,7 @@ class UsersController < ApplicationController
 
     if @user.status == 'pending'
       @user.update_attribute(:status, 'approved')
-      NotificationMailer.with(user: @user).aprroved(@user).deliver_later
+      NotificationMailer.approved(@user).deliver_later
       redirect_to admin_path
     elsif @user.update_attribute(:status, 'pending')
       redirect_to admin_path
@@ -58,6 +55,29 @@ class UsersController < ApplicationController
     @user.destroy
     redirect_to admin_path
   end
+
+  def deposit
+    @user = User.find(params[:id]) 
+  end
+
+  def deposit_money
+     @user = current_user
+    amount = params[:amount].to_i
+
+    if amount <= 0
+      flash[:error] = "Amount must be greater than zero"
+      render :deposit
+    else
+        if @user.update_attribute(:cash, "#{@user.cash += amount}")
+          flash[:success] = "Deposit successful! You've deposited $#{amount}"
+          redirect_to dashboard_path
+        else
+          flash[:error] = "Deposit failed"
+          render :deposit, status: :unprocessable_entity
+        end
+    end
+  end
+
 
   private
 
