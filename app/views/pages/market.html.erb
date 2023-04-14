@@ -9,7 +9,7 @@
             <% cache stock do %>
               <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
-                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class="font-semibold text-left"><%= stock.symbol %></span>
                 <span class=""><%=
                     number_to_currency(stock.latest_price, precision: 2)
                   %></span>
@@ -30,7 +30,7 @@
             <% cache stock do %>
               <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
-                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class="font-semibold text-left"><%= stock.symbol %></span>
                 <span class=""><%=
                     number_to_currency(stock.latest_price, precision: 2)
                   %></span>
@@ -51,7 +51,7 @@
             <% cache stock do %>
               <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
-                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class="font-semibold text-left"><%= stock.symbol %></span>
                 <span class=""><%=
                     number_to_currency(stock.latest_price, precision: 2)
                   %></span>
@@ -72,7 +72,7 @@
             <% cache stock do %>
               <%= button_to stocks_search_path, params: {symbol: stock.symbol} do %>
                 <span class="">&#127820;</span>
-                <span class="font-semibold"><%= stock.symbol %></span>
+                <span class="font-semibold text-left"><%= stock.symbol %></span>
                 <span class=""><%=
                     number_to_currency(stock.latest_price, precision: 2)
                   %></span>

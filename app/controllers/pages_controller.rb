@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
-  before_action :initialize_iex_client, only: %i[index market]
-  before_action :set_market_list, only: %i[index market]
+  before_action :initialize_iex_client, only: %i[index market dashboard]
+  before_action :set_market_list, only: %i[index market dashboard]
 
   def index
     #home page
