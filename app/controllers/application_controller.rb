@@ -39,6 +39,6 @@ class ApplicationController < ActionController::Base
   end
 
   def initialize_iex_client
-    @iex_client = IexClientService.new(Rails.application.secrets.iex_api_key)
+    @iex_client ||= IexClientService.new
   end
 end
