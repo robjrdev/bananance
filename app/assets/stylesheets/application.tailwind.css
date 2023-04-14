@@ -70,9 +70,7 @@
 #owned-stocks {
   display: none;
 }
-.wrapper:has(#owned-radio:checked) #owned-stocks {
-  display: block;
-}
+.wrapper:has(#owned-radio:checked) #owned-stocks,
 .wrapper:has(#hot-radio:checked) #hot-stocks {
   display: block;
 }
