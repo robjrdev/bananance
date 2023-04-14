@@ -61,3 +61,18 @@
     @apply hidden;
   }
 }
+
+#owned-radio:checked ~ #owned-label,
+#hot-radio:checked ~ #hot-label {
+  @apply text-yellow-400 bg-yellow-200/10;
+}
+#hot-stocks,
+#owned-stocks {
+  display: none;
+}
+.wrapper:has(#owned-radio:checked) #owned-stocks {
+  display: block;
+}
+.wrapper:has(#hot-radio:checked) #hot-stocks {
+  display: block;
+}
