@@ -39,51 +39,6 @@ class ApplicationController < ActionController::Base
   end
 
   def initialize_iex_client
-    @client =
-      IEX::Api::Client.new(
-        publishable_token: 'pk_787827c9cdee408796d3f12c21a8eebb',
-        secret_token: 'sk_4fdc4b7b76d0465e8649b5367aa63018',
-        endpoint: 'https://cloud.iexapis.com/v1', # use 'https://sandbox.iexapis.com/v1' for Sandbox
-      )
-    # @client =
-    #   Rails
-    #     .cache
-    #     .fetch('iex_client', expires_in: 1.day) do
-    #       IEX::Api::Client.new(
-    #         publishable_token: 'pk_787827c9cdee408796d3f12c21a8eebb',
-    #         secret_token: 'sk_4fdc4b7b76d0465e8649b5367aa63018',
-    #         endpoint: 'https://cloud.iexapis.com/v1', # use 'https://sandbox.iexapis.com/v1' for Sandbox
-    #       )
-    #     end
-  end
-
-  def set_market_list
-    @active_market =
-      Rails
-        .cache
-        .fetch('active_stock_market_list', expires_in: 45.minutes) do
-          @client.stock_market_list(:mostactive)
-        end
-
-    @gainers_market =
-      Rails
-        .cache
-        .fetch('gainers_market_list', expires_in: 45.minutes) do
-          @client.stock_market_list(:gainers)
-        end
-
-    @top_volume_market =
-      Rails
-        .cache
-        .fetch('top_volume_market_list', expires_in: 45.minutes) do
-          @client.stock_market_list(:iexvolume)
-        end
-
-    @losers_market =
-      Rails
-        .cache
-        .fetch('losers_market_list', expires_in: 45.minutes) do
-          @client.stock_market_list(:losers)
-        end
+    @iex_client = IexClientService.new(Rails.application.secrets.iex_api_key)
   end
 end

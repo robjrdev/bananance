@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :initialize_iex_client, except: [:save_transaction]
+  before_action :initialize_iex_client, only: %i[buy_stock sell_stock]
   before_action :set_stock
   before_action :quote_stock, except: [:save_transaction]
 
@@ -33,7 +33,6 @@ class TransactionsController < ApplicationController
       if @transaction.buy?
         redirect_to :buy_stock
       else
-        p @transaction.errors.full_messages
         redirect_to :sell_stock
       end
     end
@@ -46,7 +45,7 @@ class TransactionsController < ApplicationController
   end
 
   def quote_stock
-    @quote = @client.quote(@stock.symbol)
+    @quote = @iex_client.quote(@stock.symbol)
   end
 
   def transaction_params

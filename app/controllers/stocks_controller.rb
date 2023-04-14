@@ -1,9 +1,8 @@
 class StocksController < ApplicationController
-  before_action :initialize_iex_client
-  before_action :set_market_list
+  before_action :initialize_iex_client, only: %i[search show]
 
   def index
-    @trending_stocks = @client.stock_market_list(:mostactive)
+    #
   end
 
   def new
@@ -17,7 +16,7 @@ class StocksController < ApplicationController
     @shares = @user_stock.try(:quantity) || 0
 
     begin
-      @quote = @client.quote(@stock.symbol)
+      @quote = @iex_client.quote(@stock.symbol)
     rescue IEX::Errors::SymbolNotFoundError
       flash[:danger] = 'Symbol not found. Please input a valid symbol.'
       render :new
@@ -26,7 +25,7 @@ class StocksController < ApplicationController
 
   def search
     begin
-      @quote = @client.quote(params[:symbol])
+      @quote = @iex_client.quote(params[:symbol])
 
       @stock = Stock.find_by(symbol: params[:symbol])
 
