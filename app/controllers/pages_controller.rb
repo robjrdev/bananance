@@ -8,15 +8,24 @@ class PagesController < ApplicationController
   end
 
   def dashboard
-    if logged_in?
-      if current_user.status == 'approved'
-        render 'dashboard'
-      elsif current_user.status == 'pending'
-        redirect_to pending_path
+    return redirect_to sign_in_path unless logged_in?
+    return redirect_to pending_path if current_user.status == 'pending'
+    return redirect_to admin_path if current_user.admin
+
+    @owned_stocks =
+      UserStock.where(user_id: current_user.id).where('quantity > ?', 0)
+    @user_stocks =
+      @owned_stocks.map do |owned_stock|
+        stock = Stock.find(owned_stock.stock_id)
+        quote = @iex_client.quote(stock.symbol)
+        {
+          company_name: stock.name,
+          symbol: stock.symbol,
+          quantity: owned_stock.quantity,
+          latest_price: quote.latest_price,
+          change_percent_s: quote.change_percent_s,
+        }
       end
-    else
-      redirect_to sign_in_path
-    end
   end
 
   def pending
