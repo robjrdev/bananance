@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_many :user_stocks, dependent: :delete_all
   has_many :stocks, through: :user_stocks
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
 
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }

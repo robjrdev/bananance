@@ -1,0 +1,12 @@
+<% flash.each do |type, message| %>
+  <div class="alert alert-<%= type %>">
+    <%= message %>
+  </div>
+<% end %>
+
+
+<%= form_tag user_withdraw_money_path, method: :post do %>
+  <%= label_tag :amount, "Amount to withdraw" %>
+  <%= text_field_tag :amount %>
+  <%= submit_tag "Withdraw" %>
+<% end %>

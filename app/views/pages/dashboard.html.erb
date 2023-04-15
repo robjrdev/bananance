@@ -26,6 +26,7 @@
               <%= number_to_currency(current_user.cash, precision: 2) %>
             </p>
             <%= link_to 'Deposit', user_deposit_path(current_user) %>
+            <%= link_to 'Withdraw', user_withdraw_path(current_user) %>
           </li>
         </ul>
       </div>

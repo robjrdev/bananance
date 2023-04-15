@@ -33,7 +33,10 @@ Rails
     get '/users/:id/edit' => 'users#edit', as: :edit_user
     patch '/users/:id', to: 'users#update', as: :update_user
     get '/users/:id/deposit' => 'users#deposit', as: :user_deposit
-    post '/users/:id/' => 'users#deposit_money', as: :user_deposit_money
+    post '/users/:id/deposit' => 'users#deposit_money', as: :user_deposit_money
+
+    get '/users/:id/withdraw' => 'users#withdraw', as: :user_withdraw
+    post '/users/:id/withdraw' => 'users#withdraw_money', as: :user_withdraw_money
 
     root to: 'pages#index'
   end
