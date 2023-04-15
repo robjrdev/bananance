@@ -1,1 +1,39 @@
-<p>text transaction page</p>
+<section class="py-16">
+  <div class="wrapper">
+    <p class="font-bold text-4xl">Transaction History</p>
+
+    <table class="w-full">
+      <thead class="">
+        <tr class="text-right">
+          <th class="table-header | text-center">Date</th>
+          <th class="table-header | text-center">User</th>
+          <th class="table-header">Symbol</th>
+          <th class="table-header">Transaction Type</th>
+          <th class="table-header">Quantity</th>
+          <th class="table-header">Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @transactions.each do |transaction| %>
+          <tr class="text-right">
+            <td><%= transaction.created_at.strftime('%b-%d-%Y') %></td>
+            <td class="text-left">
+              <p><%= transaction.user_id %></p>
+              <p>user email</p>
+            </td>
+            <td><%= transaction.symbol %></td>
+            <td><%= transaction.category %></td>
+            <td><%= transaction.quantity %></td>
+            <td>
+              <%=
+                custom_formatter(
+                  transaction.quantity * transaction.price_per_quantity,
+                )
+              %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -5,6 +5,12 @@ class TransactionsController < ApplicationController
 
   def index
     # transactions page
+    if current_user.admin == true
+      @transactions = Transaction.all.order(created_at: :desc)
+    else
+      #
+      @transactions = current_user.transactions.order(created_at: :desc)
+    end
   end
 
   def buy_stock

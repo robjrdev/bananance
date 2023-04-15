@@ -47,7 +47,7 @@
               <%= stock.change_percent_s %>
             </span>
             <span class="text-sm"><%=
-                convert_currency(stock.market_cap.to_i)
+                custom_formatter(stock.market_cap.to_i)
               %></span>
           <% end %>
         <% end %>

@@ -60,6 +60,10 @@
   .stock-list-selector {
     @apply hidden;
   }
+
+  .table-header {
+    @apply text-sm opacity-60 font-normal;
+  }
 }
 
 #owned-radio:checked ~ #owned-label,
