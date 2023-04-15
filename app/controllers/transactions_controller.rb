@@ -1,7 +1,11 @@
 class TransactionsController < ApplicationController
   before_action :initialize_iex_client, only: %i[buy_stock sell_stock]
-  before_action :set_stock
-  before_action :quote_stock, except: [:save_transaction]
+  before_action :set_stock, except: [:index]
+  before_action :quote_stock, except: %i[save_transaction index]
+
+  def index
+    # transactions page
+  end
 
   def buy_stock
     @transaction = Transaction.new

@@ -14,6 +14,7 @@ Rails
            as: :save_transaction
     end
 
+    get '/transactions', to: 'transactions#index', as: :transactions
     get '/markets', to: 'pages#market', as: :market
     get '/dashboard', to: 'pages#dashboard', as: :dashboard
     get '/pending', to: 'pages#pending', as: :pending
@@ -30,13 +31,15 @@ Rails
     patch '/users/:id/update_status',
           to: 'users#update_status',
           as: 'update_user_status'
-    get '/users/:id/edit' => 'users#edit', as: :edit_user
+    get '/users/:id/edit' => 'users#edit', :as => :edit_user
     patch '/users/:id', to: 'users#update', as: :update_user
-    get '/users/:id/deposit' => 'users#deposit', as: :user_deposit
-    post '/users/:id/deposit' => 'users#deposit_money', as: :user_deposit_money
+    get '/users/:id/deposit' => 'users#deposit', :as => :user_deposit
+    post '/users/:id/deposit' => 'users#deposit_money',
+         :as => :user_deposit_money
 
-    get '/users/:id/withdraw' => 'users#withdraw', as: :user_withdraw
-    post '/users/:id/withdraw' => 'users#withdraw_money', as: :user_withdraw_money
+    get '/users/:id/withdraw' => 'users#withdraw', :as => :user_withdraw
+    post '/users/:id/withdraw' => 'users#withdraw_money',
+         :as => :user_withdraw_money
 
     root to: 'pages#index'
   end
