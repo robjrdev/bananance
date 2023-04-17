@@ -1,7 +1,4 @@
-Rails
-  .application
-  .routes
-  .draw do
+Rails.application.routes.draw do
     scope '/dashboard' do
       get '/stocks', to: 'stocks#index', as: :stocks_index
       get '/stocks/search', to: 'stocks#new', as: :stocks_new
@@ -33,13 +30,14 @@ Rails
           as: 'update_user_status'
     get '/users/:id/edit' => 'users#edit', :as => :edit_user
     patch '/users/:id', to: 'users#update', as: :update_user
-    get '/users/:id/deposit' => 'users#deposit', :as => :user_deposit
-    post '/users/:id/deposit' => 'users#deposit_money',
-         :as => :user_deposit_money
-
-    get '/users/:id/withdraw' => 'users#withdraw', :as => :user_withdraw
-    post '/users/:id/withdraw' => 'users#withdraw_money',
-         :as => :user_withdraw_money
+		resources :fiats do
+					member do
+						get :deposit
+						post :create_deposit
+						get :withdraw
+						post :create_withdrawal
+					end
+				end
 
     root to: 'pages#index'
   end

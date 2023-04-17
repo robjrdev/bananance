@@ -5,7 +5,7 @@
 <% end %>
 
 
-<%= form_tag user_withdraw_money_path, method: :post do %>
+<%= form_tag  create_withdrawal_fiat_path(@user), method: :post do %>
   <%= label_tag :amount, "Amount to withdraw" %>
   <%= text_field_tag :amount %>
   <%= submit_tag "Withdraw" %>

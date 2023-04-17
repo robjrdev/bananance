@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_12_075441) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_17_092737) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "fiats", force: :cascade do |t|
+    t.string "transaction_type"
+    t.integer "amount", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_fiats_on_user_id"
+  end
 
   create_table "stocks", force: :cascade do |t|
     t.string "symbol"
@@ -56,6 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_075441) do
     t.decimal "cash", default: "0.0"
   end
 
+  add_foreign_key "fiats", "users"
   add_foreign_key "transactions", "stocks"
   add_foreign_key "transactions", "users"
   add_foreign_key "user_stocks", "stocks"
