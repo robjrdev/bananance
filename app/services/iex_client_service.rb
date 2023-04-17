@@ -19,4 +19,10 @@ class IexClientService
         client.stock_market_list(market_type)
       end
   end
+
+  def chart(symbol)
+    Rails
+      .cache
+      .fetch("chart_#{symbol}", expires_in: 45.minutes) { client.chart(symbol) }
+  end
 end

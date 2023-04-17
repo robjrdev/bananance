@@ -10,22 +10,45 @@
 <%= link_to 'buy', buy_stock_path(@stock.symbol) %>
 <%= link_to 'sell', sell_stock_path(@stock.symbol) %>
 
+<% @red = 'hsl(352,91%,62%)' %>
+<% @green = 'hsl(157,87%,43%)' %>
 <%=
   candlestick_chart(
-    {
-      '2017-10-24' => [20, 34, 10, 38],
-      '2017-10-25' => [40, 35, 30, 50],
-      '2017-10-26' => [31, 38, 33, 44],
-      '2017-10-27' => [38, 15, 5, 42],
-    },
+    @chart_data,
     class: 'box',
-    theme: 'roma',
+    theme: 'sakura',
     options: {
+      series: {
+        itemStyle: {
+          color: @green,
+          color0: @red,
+          borderColor: @green,
+          borderColor0: @red,
+        },
+      },
       xAxis: {
+        axisLine: {
+          onZero: false,
+        },
+        splitLine: {
+          show: false,
+        },
+        min: 'dataMin',
+        max: 'dataMax',
         axisTick: {
           alignWithLabel: true,
         },
       },
+      yAxis: {
+        scale: true,
+        splitArea: {
+          show: true,
+        },
+      },
+      dataZoom: [
+        { type: 'inside', start: 50, end: 100 },
+        { show: true, type: 'slider', top: '90%', start: 50, end: 100 },
+      ],
     },
   )
 %>

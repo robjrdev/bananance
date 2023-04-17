@@ -15,6 +15,27 @@ class StocksController < ApplicationController
     @user_stock = current_user.user_stocks.find_by(stock: @stock)
     @shares = @user_stock.try(:quantity) || 0
 
+    # chart part
+    @chart = @iex_client.chart(@stock.symbol)
+
+    @chart_data =
+      @chart
+        .reduce([]) do |init, curr|
+          init.push(
+            [
+              curr['label'],
+              curr['open'],
+              curr['close'],
+              curr['high'],
+              curr['low'],
+            ],
+          )
+        end
+        .inject({}) do |res, k|
+          res[k[0]] = k[1..-1]
+          res
+        end
+
     begin
       @quote = @iex_client.quote(@stock.symbol)
     rescue IEX::Errors::SymbolNotFoundError
