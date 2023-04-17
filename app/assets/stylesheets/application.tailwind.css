@@ -64,6 +64,10 @@
   .table-header {
     @apply text-sm opacity-60 font-normal;
   }
+
+  .trans-table :where(td, th) {
+    padding: 1rem;
+  }
 }
 
 #owned-radio:checked ~ #owned-label,

@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include ActionView::Helpers::NumberHelper
 
   before_action :require_login
-  helper_method :current_user, :logged_in?, :custom_formatter
+  helper_method :current_user, :logged_in?, :custom_formatter, :find_user_info
 
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
@@ -22,8 +22,22 @@ class ApplicationController < ActionController::Base
     [root_path, signup_path, sign_in_path]
   end
 
-  def custom_formatter(number, precision: 2, type: 'currency')
+  def custom_formatter(
+    number,
+    precision = 2,
+    type = 'currency',
+    unit = '',
+    custom_format = '%u %n'
+  )
     if type == 'stock'
+      number_to_currency(
+        number,
+        precision: precision,
+        separator: '.',
+        delimiter: ',',
+        unit: unit,
+        format: custom_format,
+      )
       #
     else
       if number >= 1_000_000_000
@@ -53,6 +67,10 @@ class ApplicationController < ActionController::Base
         )
       end
     end
+  end
+
+  def find_user_info(user_id)
+    User.find_by(id: user_id)
   end
 
   def initialize_iex_client
