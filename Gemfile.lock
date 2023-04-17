@@ -204,6 +204,8 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.5.0)
       loofah (~> 2.19, >= 2.19.1)
+    rails_charts (0.0.5)
+      rails
     railties (7.0.4.3)
       actionpack (= 7.0.4.3)
       activesupport (= 7.0.4.3)
@@ -291,6 +293,7 @@ DEPENDENCIES
   pry-byebug
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
+  rails_charts
   rspec-rails (~> 6.0.0)
   selenium-webdriver
   sprockets-rails
