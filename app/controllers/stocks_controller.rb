@@ -19,22 +19,14 @@ class StocksController < ApplicationController
     @chart = @iex_client.chart(@stock.symbol)
 
     @chart_data =
-      @chart
-        .reduce([]) do |init, curr|
-          init.push(
-            [
-              curr['label'],
-              curr['open'],
-              curr['close'],
-              curr['high'],
-              curr['low'],
-            ],
-          )
-        end
-        .inject({}) do |res, k|
-          res[k[0]] = k[1..-1]
-          res
-        end
+      @chart.each_with_object({}) do |data_point, hash|
+        hash[data_point['label']] = [
+          data_point['open'],
+          data_point['close'],
+          data_point['high'],
+          data_point['low'],
+        ]
+      end
 
     begin
       @quote = @iex_client.quote(@stock.symbol)
@@ -42,6 +34,8 @@ class StocksController < ApplicationController
       flash[:danger] = 'Symbol not found. Please input a valid symbol.'
       render :new
     end
+
+    @transaction = Transaction.new
   end
 
   def search

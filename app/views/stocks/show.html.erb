@@ -1,54 +1,103 @@
-<p><%= @stock.name %></p>
-<p><%= @stock.symbol %></p>
-<p><%= @quote.latest_price %></p>
+<section class="py-8">
+  <div class="wrapper | grid grid-cols-[auto_1fr] items-center gap-8">
+    <div class="text-center border-r-2 border-white/20 px-8 ">
+      <p class="text-4xl font-bold">
+        <span>&#127820;</span><span><%= @stock.symbol %></span>
+      </p>
+      <p class="text-sm opacity-60"><%= @stock.name %></p>
+      <div class="mx-auto p-2 mt-4">
+        <p class="text-xs font-semibold opacity-60">Current Price</p>
+        <p class="text-xl font-bold"><%= @quote.latest_price %></p>
+        <p class="text-xs font-semibold opacity-60">You own:</p>
+        <p class="text-sm font-bold">
+          <%= custom_formatter(@shares, 6, 'stock') %>
+          <span>&#127820;</span>
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-8">
+      <div class="stock-info-card">
+        <p class="text-xs font-semibold opacity-60">24h Change</p>
+        <p
+          class="text-lg font-bold <%= @quote.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+        >
+          <%= @quote.change_percent_s %>
+        </p>
+      </div>
+      <div class="stock-info-card">
+        <p class="text-xs font-semibold opacity-60">24h High</p>
+        <p class="text-lg font-bold"><%= @quote.high %></p>
+      </div>
+      <div class="stock-info-card">
+        <p class="text-xs font-semibold opacity-60">24h Low</p>
+        <p class="text-lg font-bold"><%= @quote.low %></p>
+      </div>
+      <div class="stock-info-card">
+        <p class="text-xs font-semibold opacity-60">24h Volume</p>
+        <p class="text-lg font-bold"><%= @quote.latest_volume %></p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="">
+  <div class="wrapper">
+    <%
+      @red = 'hsl(352,91%,62%)'
+      @green = 'hsl(157,87%,43%)'
+    %>
 
-<p>
-  you own
-  <span><%= "#{@shares} share#{'s' if @shares > 0 && @shares < 1}" %></span>
-</p>
+    <%=
+      candlestick_chart(
+        @chart_data,
+        class: 'box',
+        theme: 'sakura',
+        options: {
+          series: {
+            itemStyle: {
+              color: @green,
+              color0: @red,
+              borderColor: @green,
+              borderColor0: @red,
+            },
+          },
+          xAxis: {
+            axisLine: {
+              onZero: false,
+            },
+            splitLine: {
+              show: false,
+            },
+            min: 'dataMin',
+            max: 'dataMax',
+            axisTick: {
+              alignWithLabel: true,
+            },
+          },
+          yAxis: {
+            scale: true,
+            splitArea: {
+              show: true,
+            },
+          },
+          dataZoom: [
+            { type: 'inside', start: 50, end: 100 },
+            { show: true, type: 'slider', top: '90%', start: 50, end: 100 },
+          ],
+        },
+      )
+    %>
+  </div>
+</section>
 
-<%= link_to 'buy', buy_stock_path(@stock.symbol) %>
-<%= link_to 'sell', sell_stock_path(@stock.symbol) %>
-
-<% @red = 'hsl(352,91%,62%)' %>
-<% @green = 'hsl(157,87%,43%)' %>
-<%=
-  candlestick_chart(
-    @chart_data,
-    class: 'box',
-    theme: 'sakura',
-    options: {
-      series: {
-        itemStyle: {
-          color: @green,
-          color0: @red,
-          borderColor: @green,
-          borderColor0: @red,
-        },
-      },
-      xAxis: {
-        axisLine: {
-          onZero: false,
-        },
-        splitLine: {
-          show: false,
-        },
-        min: 'dataMin',
-        max: 'dataMax',
-        axisTick: {
-          alignWithLabel: true,
-        },
-      },
-      yAxis: {
-        scale: true,
-        splitArea: {
-          show: true,
-        },
-      },
-      dataZoom: [
-        { type: 'inside', start: 50, end: 100 },
-        { show: true, type: 'slider', top: '90%', start: 50, end: 100 },
-      ],
-    },
-  )
-%>
+<section>
+  <div class="wrapper | grid md:grid-cols-2 grid-cols-1 gap-8 p-8">
+    <%=
+      render 'transactions/trade_form',
+             category: 'buy',
+             max_amount: @current_user.cash / @quote.latest_price
+    %>
+    <%=
+      render 'transactions/trade_form', category: 'sell', max_amount: @shares
+    %>
+  </div>
+</section>

@@ -23,6 +23,13 @@
     @apply bg-yellow-400 hover:bg-yellow-500 text-neutral-900 py-2 px-4 rounded cursor-pointer;
   }
 
+  .green-button {
+    @apply bg-green-500 hover:bg-green-300 text-neutral-100 py-2 px-4 rounded cursor-pointer;
+  }
+  .red-button {
+    @apply bg-red-500 hover:bg-red-300 text-neutral-100 py-2 px-4 rounded cursor-pointer;
+  }
+
   .gray-label-button {
     @apply px-4 py-2 hover:bg-neutral-400/10 rounded-md cursor-pointer opacity-70;
   }
@@ -38,6 +45,10 @@
   }
   .market-list-card :where(ul button) {
     @apply grid grid-cols-[24px_1fr_1fr_1fr] items-center gap-2 hover:bg-neutral-700 hover:text-neutral-100 p-2 rounded-xl w-full;
+  }
+
+  .stock-info-card {
+    @apply bg-neutral-200/20 rounded-md grow p-4;
   }
 }
 
@@ -67,6 +78,14 @@
 
   .trans-table :where(td, th) {
     padding: 1rem;
+  }
+
+  .hide-arrows::-webkit-outer-spin-button,
+  .hide-arrows::-webkit-inner-spin-button {
+    @apply hidden;
+  }
+  .hide-arrows:focus {
+    --tw-ring-shadow: 0;
   }
 }
 

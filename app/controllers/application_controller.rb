@@ -39,6 +39,15 @@ class ApplicationController < ActionController::Base
         format: custom_format,
       )
       #
+    elsif type == 'custom'
+      number_to_currency(
+        number,
+        precision: precision,
+        separator: '.',
+        delimiter: ',',
+        unit: unit,
+        format: custom_format,
+      )
     else
       if number >= 1_000_000_000
         # If the number is greater than or equal to 1 million, format it as $1M
