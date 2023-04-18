@@ -31,6 +31,9 @@
     <%= form.label 'Total', class: 'opacity-60 text-sm' %>
     <%=
       form.number_field :amount,
+                        step: :any,
+                        max: max_amount * @quote.latest_price,
+                        value: 0.00,
                         class:
                           'hide-arrows | text-right bg-transparent border-0 font-semibold',
                         id: "#{category}-total"
@@ -45,7 +48,7 @@
 <% end %>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  function Thing() {
     const buyPricePerQuantity = parseFloat(
       document.querySelector("#buy-price-per-quantity").value
     );
@@ -63,46 +66,49 @@
 
     buySlider.addEventListener("input", function () {
       const buySliderValue = this.value;
-      console.log("Buy Slider value:", buySliderValue);
+
       // Perform any action based on the slider value
       buyTotal.value = (buySliderValue * buyPricePerQuantity).toFixed(2);
       buyTitleDiv.title = `$ ${buyTotal.value.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(buyTotal);
     });
 
     sellSlider.addEventListener("input", function () {
       const sellSliderValue = this.value;
-      console.log("Sell Slider value:", sellSliderValue);
+
       // Perform any action based on the slider value
       sellTotal.value = (sellSliderValue * sellPricePerQuantity).toFixed(2);
       sellTitleDiv.title = `$ ${sellTotal.value.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(sellTotal);
     });
 
     buyTotal.addEventListener("input", function () {
       const buyTotalValue = parseFloat(this.value);
-      console.log("Buy Total value:", buyTotalValue);
+
       // Update the slider value based on the total amount field value
       buySlider.value = (buyTotalValue / buyPricePerQuantity).toFixed(2);
       buyTitleDiv.title = `$ ${buyTotalValue.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(buySlider);
     });
 
     sellTotal.addEventListener("input", function () {
       const sellTotalValue = parseFloat(this.value);
-      console.log("Sell Total value:", sellTotalValue);
+
       // Update the slider value based on the total amount field value
       sellSlider.value = (sellTotalValue / sellPricePerQuantity).toFixed(2);
       sellTitleDiv.title = `$ ${sellTotalValue.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(sellSlider);
     });
+  }
+  document.addEventListener("turbo:render", function () {
+    Thing();
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    Thing();
   });
 </script>

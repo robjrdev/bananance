@@ -4,7 +4,7 @@
       <p class="text-4xl font-bold">
         <span>&#127820;</span><span><%= @stock.symbol %></span>
       </p>
-      <p class="text-sm opacity-60"><%= @stock.name %></p>
+      <p class="text-sm opacity-60 max-w-[175px]"><%= @stock.name %></p>
       <div class="mx-auto p-2 mt-4">
         <p class="text-xs font-semibold opacity-60">Current Price</p>
         <p class="text-xl font-bold"><%= @quote.latest_price %></p>
@@ -101,3 +101,5 @@
     %>
   </div>
 </section>
+<p><%= @quote.latest_price %></p>
+<p><%= @quote.latest_volume %></p>
