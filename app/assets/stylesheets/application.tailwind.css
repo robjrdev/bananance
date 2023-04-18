@@ -68,7 +68,8 @@
     @apply px-3 py-2 border-black/10 dark:border-white/10 dark:bg-neutral-800/80 rounded-md w-full;
   }
 
-  .stock-list-selector, .users-list-selector {
+  .stock-list-selector,
+  .users-list-selector {
     @apply hidden;
   }
 
@@ -96,14 +97,20 @@
   @apply text-yellow-400 bg-yellow-200/10;
 }
 #hot-stocks,
-#owned-stocks,
-#pending-users,
-#approved-users {
+#owned-stocks {
   display: none;
 }
+
 .wrapper:has(#owned-radio:checked) #owned-stocks,
-.wrapper:has(#hot-radio:checked) #hot-stocks,
-.wrapper:has(#pending-radio:checked) #pending-users,
-.wrapper:has(#approved-radio:checked) #approved-users {
+.wrapper:has(#hot-radio:checked) #hot-stocks {
   display: block;
+}
+
+.pending-users,
+.approved-users {
+  display: none;
+}
+.wrapper:has(#pending-radio:checked) .pending-users,
+.wrapper:has(#approved-radio:checked) .approved-users {
+  display: table-row;
 }

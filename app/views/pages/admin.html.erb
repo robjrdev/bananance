@@ -95,7 +95,7 @@
       </tr>
       <% else %>
         <% @pending_users.each do |user| %>
-        <tr class="text-md" id="pending-users">
+        <tr class="pending-users | text-md" id="">
           <td class="text-center"><%= user.email %></td>
           <td class="text-center"><%= user.first_name %></td>
           <td class="text-center"><%= user.last_name %></td>
