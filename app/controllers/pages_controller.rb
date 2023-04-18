@@ -40,6 +40,8 @@ class PagesController < ApplicationController
   def admin
     redirect_to dashboard_path if logged_in? && !current_user.admin
     @users = User.all
+    @pending_users = @users.select { |user| user.status == 'pending' && user.admin == false }
+    @approved_users = @users.select { |user| user.status == 'approved' && user.admin == false }
   end
 
   def set_market_list
