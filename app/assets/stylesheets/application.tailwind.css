@@ -53,6 +53,9 @@
   .stock-info-card {
     @apply bg-neutral-200/20 rounded-md grow p-4;
   }
+  .stock-info-card:has(p:empty) {
+    @apply hidden;
+  }
 
   .error-message {
     @apply notice-message bg-red-700;
@@ -72,7 +75,7 @@
   }
 
   .notice-message {
-    @apply px-4 py-1 rounded-md shadow-md dark:shadow-white/25 text-white text-base fade;
+    @apply px-4 py-1 rounded-md shadow-sm dark:shadow-white/5 text-white text-base fade;
   }
 
   .form-label {

@@ -61,14 +61,18 @@
       </div>
     </header>
     <% if flash[:error] %>
-      <ul class="fixed top-[20px] right-[50%] translate-x-[50%] text-center">
+      <ul
+        class="fixed top-[20px] right-[50%] translate-x-[50%] text-center flex flex-col items-center gap-4"
+      >
         <% flash[:error].each do |message| %>
           <li class="error-message"><%= message %></li>
         <% end %>
       </ul>
     <% end %>
     <% if flash[:success] %>
-      <ul class="fixed top-[20px] right-1/2 translate-x-[50%] text-center">
+      <ul
+        class="fixed top-[20px] right-1/2 translate-x-[50%] text-center flex flex-col items-center gap-4"
+      >
         <% flash[:success].each do |message| %>
           <li class="success-message"><%= message %></li>
         <% end %>
