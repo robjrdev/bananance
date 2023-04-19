@@ -26,6 +26,11 @@ class PagesController < ApplicationController
           change_percent_s: quote.change_percent_s,
         }
       end
+
+    @total_estimate =
+      @user_stocks.reduce(0) do |sum, user_stock|
+        sum + (user_stock[:quantity] * user_stock[:latest_price])
+      end
   end
 
   def pending

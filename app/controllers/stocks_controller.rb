@@ -57,4 +57,8 @@ class StocksController < ApplicationController
       render :new
     end
   end
+
+  def look_up(query)
+    #
+  end
 end
