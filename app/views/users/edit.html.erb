@@ -1,3 +1,5 @@
+<% provide(:title, 'Edit Profile') %>
+
 <div class="flex w-full justify-center ">
 	<%= form_with model: @user, url: update_user_path(@user),class: "mt-10 w-2/4 bg-black text-white p-8 rounded-lg", method: :patch, local: true do |form| %>
 	<h1 class="text-4xl font-bold text-yellow-500 mb-8">Edit User</h1>

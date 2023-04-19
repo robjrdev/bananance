@@ -1,89 +1,138 @@
+<% provide(:title, 'Admin Dashboard') %>
+
 <section class="min-h-[75vh] py-16">
   <div class="wrapper">
-        <div class="flex justify-between">
-          <h1 class="text-4xl font-bold">Admin Dashboard</h1>
-          <%= link_to "Create User", signup_path, class: "yellow-button w-max" %>
-        </div>
-        <div class="flex flex-wrap gap-2 p-4">
-          <input 
-          type="radio"
-          class="users-list-selector"
-          name="show-users-list"
-          id="pending-radio"
-          <%= @users.empty? ? nil : 'checked'%>
-          >
-          <input 
-          type="radio"
-          class="users-list-selector"
-          name="show-users-list"
-          id="approved-radio"
-          <%= @users.empty? ? 'checked' : nil %>
-          >
-        <label 
+    <div class="flex justify-between">
+      <h1 class="text-4xl font-bold">Admin Dashboard</h1>
+      <%= link_to 'Create User', signup_path, class: 'yellow-button w-max' %>
+    </div>
+    <div class="flex flex-wrap gap-2 p-4">
+      <input
+        type="radio"
+        class="users-list-selector"
+        name="show-users-list"
+        id="pending-radio"
+        <%= @users.empty? ? nil : 'checked' %>
+      />
+      <input
+        type="radio"
+        class="users-list-selector"
+        name="show-users-list"
+        id="approved-radio"
+        <%= @users.empty? ? 'checked' : nil %>
+      />
+      <label
         id="pending-label"
         class="gray-label-button | text-lg font-semibold"
-        for="pending-radio">
-          Pending
-        </label>
+        for="pending-radio"
+      >
+        Pending
+      </label>
 
-        <label 
+      <label
         for="approved-radio"
         id="approved-label"
         class="gray-label-button | text-lg font-semibold"
         >Approved
-        </label>
-   </div>
-    
-  <table class="trans-table w-full">
-    <thead class="border-b-1">
-      <tr class="table-header text-right">
-        <th class="font-normal text-center">Email</th>
-        <th class="font-normal text-center">First Name</th>
-        <th class="font-normal text-center">Last Name</th>
-        <th class="font-normal text-center">Status</th>
-        <th class="font-normal text-center">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @pending_users.empty? %>
-      <tr>
-        <td colspan="5" class="text-center font-bold">No Pending Users</td>
-      </tr>
-      <% else %>
-        <% @pending_users.each do |user| %>
-        <tr class="pending-users | text-md" id="">
-          <td class="text-center"><%= user.email %></td>
-          <td class="text-center"><%= user.first_name %></td>
-          <td class="text-center"><%= user.last_name %></td>
-          <td class="text-center"><%= user.status.capitalize %></td>
-          <td class="text-center flex justify-center gap-1">
-            <%= button_to user.status == 'pending' ? 'Approve' : 'Pending', update_user_status_path(user), method: :patch, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs" %>
-            <%= link_to "Edit", edit_user_path(user), class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-xs" %>
-            <%= button_to "Delete", user_path(user), method: :delete, data: { confirm: "Are you sure you want to delete this user?" }, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs" %>
-          </td>
-        </tr>
-        <% end %>
-      <% end %>
-      <% if @approved_users.empty? %>
-      <tr>
-        <td colspan="5" class="text-center font-bold">No Approved Users</td>
-      </tr>
-      <% else %>
-        <% @approved_users.each do |user| %>
-        <tr class="approved-users | text-md" id="">
-          <td class="text-center"><%= user.email %></td>
-          <td class="text-center"><%= user.first_name %></td>
-          <td class="text-center"><%= user.last_name %></td>
-          <td class="text-center"><%= user.status.capitalize %></td>
-          <td class="text-center flex justify-center gap-1">
-            <%= button_to user.status == 'pending' ? 'Approve' : 'Pending', update_user_status_path(user), method: :patch, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs" %>
-            <%= link_to "Edit", edit_user_path(user), class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-xs" %>
-            <%= button_to "Delete", user_path(user), method: :delete, data: { confirm: "Are you sure you want to delete this user?" }, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs" %>
-          </td>
-        </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-</section>
+      </label>
+    </div>
 
+    <table class="trans-table w-full">
+      <thead class="border-b-1">
+        <tr class="table-header text-right">
+          <th class="font-normal text-center">Email</th>
+          <th class="font-normal text-center">First Name</th>
+          <th class="font-normal text-center">Last Name</th>
+          <th class="font-normal text-center">Status</th>
+          <th class="font-normal text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @pending_users.empty? %>
+          <tr>
+            <td colspan="5" class="text-center font-bold">No Pending Users</td>
+          </tr>
+        <% else %>
+          <% @pending_users.each do |user| %>
+            <tr class="pending-users | text-md" id="">
+              <td class="text-center"><%= user.email %></td>
+              <td class="text-center"><%= user.first_name %></td>
+              <td class="text-center"><%= user.last_name %></td>
+              <td class="text-center"><%= user.status.capitalize %></td>
+              <td class="text-center flex justify-center gap-1">
+                <%=
+                  button_to(
+                    user.status == 'pending' ? 'Approve' : 'Pending',
+                    update_user_status_path(user),
+                    method: :patch,
+                    class:
+                      'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs',
+                  )
+                %>
+                <%=
+                  link_to 'Edit',
+                          edit_user_path(user),
+                          class:
+                            'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-xs'
+                %>
+                <%=
+                  button_to 'Delete',
+                            user_path(user),
+                            method: :delete,
+                            data: {
+                              confirm:
+                                'Are you sure you want to delete this user?',
+                            },
+                            class:
+                              'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs'
+                %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% if @approved_users.empty? %>
+          <tr>
+            <td colspan="5" class="text-center font-bold">No Approved Users</td>
+          </tr>
+        <% else %>
+          <% @approved_users.each do |user| %>
+            <tr class="approved-users | text-md" id="">
+              <td class="text-center"><%= user.email %></td>
+              <td class="text-center"><%= user.first_name %></td>
+              <td class="text-center"><%= user.last_name %></td>
+              <td class="text-center"><%= user.status.capitalize %></td>
+              <td class="text-center flex justify-center gap-1">
+                <%=
+                  button_to(
+                    user.status == 'pending' ? 'Approve' : 'Pending',
+                    update_user_status_path(user),
+                    method: :patch,
+                    class:
+                      'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs',
+                  )
+                %>
+                <%=
+                  link_to 'Edit',
+                          edit_user_path(user),
+                          class:
+                            'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-xs'
+                %>
+                <%=
+                  button_to 'Delete',
+                            user_path(user),
+                            method: :delete,
+                            data: {
+                              confirm:
+                                'Are you sure you want to delete this user?',
+                            },
+                            class:
+                              'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs'
+                %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

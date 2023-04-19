@@ -38,13 +38,20 @@ class TransactionsController < ApplicationController
 
     if @transaction.save &&
          @user_stock.update(stock: @stock, quantity: updated_quantity)
+      if @transaction.buy?
+        flash[:success] = [
+          "#{@transaction.quantity} #{@transaction.symbol} bananas bought.",
+        ]
+      elsif @transaction.sell?
+        flash[:success] = [
+          "#{@transaction.quantity} #{@transaction.symbol} bananas sold.",
+        ]
+      end
+
       redirect_to stocks_show_path
     else
-      if @transaction.buy?
-        redirect_to :buy_stock
-      else
-        redirect_to :sell_stock
-      end
+      flash[:error] = @transaction.errors.full_messages
+      redirect_to stocks_show_path
     end
   end
 

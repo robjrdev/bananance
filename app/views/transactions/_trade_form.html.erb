@@ -1,51 +1,56 @@
-<%= form_with scope: @transaction, url: save_transaction_path, class: "flex flex-col gap-4" do |form| %>
-  <%= form.hidden_field :stock_id, value: @stock.id %>
-  <%= form.hidden_field :category, value: category %>
-  <%=
-    form.hidden_field :price_per_quantity,
-                      value: @quote.latest_price,
-                      id: "#{category}-price-per-quantity"
-  %>
-  <p class="text-xs font-semibold">
-    <span class="opacity-60">Available:</span>
-    <span class="opacity-90"><%=
-        if category == 'buy'
-          custom_formatter(@current_user.cash, 2, 'custom', 'USD', '%n %u')
-        else
-          custom_formatter(@shares, 6, 'stock', @stock.symbol, '%n %u')
-        end
-      %></span>
-  </p>
-  <%=
-    form.range_field :quantity,
-                     min: 0,
-                     max: max_amount,
-                     #  step: :any,
-                     value: 0,
-                     id: "#{category}-slider"
-  %>
-  <div
-    class="grid grid-cols-[auto_1fr_auto] items-center gap-2 border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md"
-    id="<%= category %>-title-holder"
-  >
-    <%= form.label 'Total', class: 'opacity-60 text-sm' %>
+<div style="--banana: url(<%= asset_path('banana.png') %>)">
+  <%= form_with scope: @transaction, url: save_transaction_path, class: "flex flex-col gap-4" do |form| %>
+    <%= form.hidden_field :stock_id, value: @stock.id %>
+    <%= form.hidden_field :category, value: category %>
     <%=
-      form.number_field :amount,
-                        class:
-                          'hide-arrows | text-right bg-transparent border-0 font-semibold',
-                        id: "#{category}-total"
+      form.hidden_field :price_per_quantity,
+                        value: @quote.latest_price,
+                        id: "#{category}-price-per-quantity"
     %>
-    <span class="font-semibold">USD</span>
-  </div>
-  <%=
-    form.submit "#{category} #{@stock.symbol}",
-                class:
-                  "capitalize font-bold #{category == 'buy' ? 'green-button' : 'red-button'}"
-  %>
-<% end %>
+    <p class="text-xs font-semibold">
+      <span class="opacity-60">Available:</span>
+      <span class="opacity-90"><%=
+          if category == 'buy'
+            custom_formatter(@current_user.cash, 2, 'custom', 'USD', '%n %u')
+          else
+            custom_formatter(@shares, 6, 'stock', @stock.symbol, '%n %u')
+          end
+        %></span>
+    </p>
+    <div
+      class="grid grid-cols-[auto_1fr_auto] items-center gap-2 border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md w-full"
+      id="<%= category %>-title-holder"
+    >
+      <%= form.label 'Amount', class: 'opacity-60 text-sm' %>
+      <%=
+        form.number_field :amount,
+                          step: :any,
+                          max: max_amount * @quote.latest_price,
+                          value: 0.00,
+                          class:
+                            'hide-arrows | ring-0 text-right bg-transparent border-0 font-semibold',
+                          id: "#{category}-total"
+      %>
+      <span class="font-semibold">USD</span>
+    </div>
+    <%=
+      form.range_field :quantity,
+                       min: 0,
+                       max: max_amount,
+                       #  step: :any,
+                       value: 0,
+                       id: "#{category}-slider"
+    %>
+    <%=
+      form.submit "#{category} #{@stock.symbol}",
+                  class:
+                    "capitalize font-bold #{category == 'buy' ? 'green-button' : 'red-button'}"
+    %>
+  <% end %>
+</div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  function JSFunction() {
     const buyPricePerQuantity = parseFloat(
       document.querySelector("#buy-price-per-quantity").value
     );
@@ -63,46 +68,49 @@
 
     buySlider.addEventListener("input", function () {
       const buySliderValue = this.value;
-      console.log("Buy Slider value:", buySliderValue);
+
       // Perform any action based on the slider value
       buyTotal.value = (buySliderValue * buyPricePerQuantity).toFixed(2);
       buyTitleDiv.title = `$ ${buyTotal.value.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(buyTotal);
     });
 
     sellSlider.addEventListener("input", function () {
       const sellSliderValue = this.value;
-      console.log("Sell Slider value:", sellSliderValue);
+
       // Perform any action based on the slider value
       sellTotal.value = (sellSliderValue * sellPricePerQuantity).toFixed(2);
       sellTitleDiv.title = `$ ${sellTotal.value.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(sellTotal);
     });
 
     buyTotal.addEventListener("input", function () {
       const buyTotalValue = parseFloat(this.value);
-      console.log("Buy Total value:", buyTotalValue);
+
       // Update the slider value based on the total amount field value
       buySlider.value = (buyTotalValue / buyPricePerQuantity).toFixed(2);
       buyTitleDiv.title = `$ ${buyTotalValue.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(buySlider);
     });
 
     sellTotal.addEventListener("input", function () {
       const sellTotalValue = parseFloat(this.value);
-      console.log("Sell Total value:", sellTotalValue);
+
       // Update the slider value based on the total amount field value
       sellSlider.value = (sellTotalValue / sellPricePerQuantity).toFixed(2);
       sellTitleDiv.title = `$ ${sellTotalValue.toLocaleString("en-US", {
         maximumFractionDigits: 2,
       })}`;
-      console.log(sellSlider);
     });
+  }
+  document.addEventListener("turbo:render", function () {
+    JSFunction();
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    JSFunction();
   });
 </script>

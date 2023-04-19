@@ -50,6 +50,13 @@
   .stock-info-card {
     @apply bg-neutral-200/20 rounded-md grow p-4;
   }
+
+  .error-message {
+    @apply notice-message bg-red-700;
+  }
+  .success-message {
+    @apply notice-message bg-green-700;
+  }
 }
 
 @layer utilities {
@@ -59,6 +66,10 @@
 
     width: min(var(--max-width), 100% - (var(--padding) * 2));
     margin-inline: auto;
+  }
+
+  .notice-message {
+    @apply px-4 py-1 rounded-md shadow-md dark:shadow-white/25 text-white text-base fade;
   }
 
   .form-label {
@@ -85,8 +96,13 @@
   .hide-arrows::-webkit-inner-spin-button {
     @apply hidden;
   }
-  .hide-arrows:focus {
-    --tw-ring-shadow: 0;
+
+  .fade {
+    animation-name: fadeInOut;
+    animation-duration: 4s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
   }
 }
 
@@ -113,4 +129,27 @@
 .wrapper:has(#pending-radio:checked) .pending-users,
 .wrapper:has(#approved-radio:checked) .approved-users {
   display: table-row;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+
+  25%,
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition-delay: 9999s;
+  transition-delay: 9999s;
 }

@@ -1,32 +1,36 @@
+<% provide(:title, 'Dashboard') %>
+
 <section class="py-8">
   <div class="wrapper">
     <div
-      class="user-info | grid grid-cols-[auto_1fr] gap-8 bg-gray-600/10 rounded-md p-4 shadow-md"
+      class="user-info | grid grid-cols-1 sm:grid-cols-[auto_1fr] justify-items-center items-center gap-8 bg-gray-600/10 rounded-md p-4 shadow-md mx-auto w-max sm:w-full"
     >
       <div
-        class="aspect-square max-w-[150px] rounded-full bg-red-900 grid place-items-center overflow-hidden"
+        class="max-w-[150px] rounded-full bg-red-900 grid place-items-center overflow-hidden"
       >
-        <span class="text-8xl">&#127820;</span>
+        <span class="text-8xl aspect-[1_/_1] translate-y-2">&#127820;</span>
       </div>
-      <div class="grid gap-4">
+      <div class="grid gap-4 w-full text-center sm:text-left">
         <div>
           <p class="text-xl opacity-60">Estimated Balance</p>
           <p class="text-5xl font-semibold opacity-80">
             <span>&#8776;</span><span>$0.00</span>
           </p>
         </div>
-        <ul class="flex flex-wrap gap-12">
+        <ul
+          class="flex flex-wrap gap-12 justify-center sm:justify-start items-center"
+        >
           <li>
             <p class="text-xs opacity-70">User Email</p>
             <p class="text-sm"><%= current_user.email %></p>
           </li>
           <li>
             <p class="text-xs opacity-70">Cash</p>
-            <p class="text-sm">
-              <%= number_to_currency(current_user.cash, precision: 2) %>
-            </p>
-            <%= link_to 'Deposit', deposit_fiat_path(current_user) %>
-            <%= link_to 'Withdraw', withdraw_fiat_path(current_user) %>
+            <%=
+              link_to number_to_currency(current_user.cash, precision: 2),
+                      wallet_path,
+                      class: 'text-sm'
+            %>
           </li>
         </ul>
       </div>
