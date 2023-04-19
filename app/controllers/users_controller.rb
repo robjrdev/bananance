@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:create]
   def new
-    
     redirect_to dashboard_path if logged_in? && current_user.admin == false
     @user = User.new
   end
@@ -30,7 +29,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to admin_path
     else
-      flash[:error] = @user.errors.full_messages.to_sentence
+      flash[:error] = @user.errors.full_messages
       render :edit, status: :unprocessable_entity
     end
   end
@@ -45,7 +44,7 @@ class UsersController < ApplicationController
     elsif @user.update_attribute(:status, 'pending')
       redirect_to admin_path
     else
-      flash[:error] = @user.errors.full_messages.to_sentence
+      flash[:error] = @user.errors.full_messages
       redirect_to admin_path
     end
   end
@@ -59,20 +58,20 @@ class UsersController < ApplicationController
   def deposit_money
     redirect_to fiats_deposit_path(current_user)
   end
-  
+
   def withdraw_money
     redirect_to fiats_withdraw_path(current_user)
   end
 
   # def deposit
-  #   @user = User.find(params[:id]) 
+  #   @user = User.find(params[:id])
   # end
 
   # def deposit_money
   #   @user = current_user
   #   type = params[:commit]
   #   amount = params[:amount].to_i
-    
+
   #   if amount <= 0
   #     flash[:error] = "Amount must be greater than zero"
   #     render :deposit, status: :unprocessable_entity
@@ -88,7 +87,7 @@ class UsersController < ApplicationController
   # end
 
   # def withdraw
-  #   @user = User.find(params[:id]) 
+  #   @user = User.find(params[:id])
   # end
 
   # def withdraw_money

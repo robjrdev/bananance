@@ -18,38 +18,59 @@
         </tr>
       </thead>
       <tbody>
-        <% @transactions.each do |transaction| %>
-          <tr class="text-right hover:bg-neutral-400/10">
-            <td class="text-xs text-center opacity-60">
-              <%= transaction.created_at.strftime('%b-%d-%Y') %>
-            </td>
-            <% if current_user.admin == true %>
-              <td class="text-left">
-                <p><%= find_user_info(transaction.user_id).email %></p>
-                <p class="capitalize text-xs opacity-50">
-                  <%= find_user_info(transaction.user_id).first_name %>
-                  <%= find_user_info(transaction.user_id).last_name %>
-                </p>
-              </td>
-            <% end %>
-            <td class="font-semibold text-center">
-              <%= button_to stocks_search_path, params: {symbol: transaction.symbol} , :class => "w-full hover:text-yellow-500" do %>
-                <%= transaction.symbol %>
-              <% end %>
-            </td>
-            <td class="capitalize text-center"><%= transaction.category %></td>
-            <td class="text-sm">
-              <%= custom_formatter(transaction.quantity, 6, 'stock') %>
-              &#127820;
-            </td>
-            <td>
+        <% if @transactions.empty? %>
+          <tr>
+            <td colspan="5"></td>
+          </tr>
+          <tr>
+            <td colspan="5"></td>
+          </tr>
+          <tr>
+            <td colspan="5">
               <%=
-                custom_formatter(
-                  transaction.quantity * transaction.price_per_quantity,
-                )
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
               %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
             </td>
           </tr>
+        <% else %>
+          <% @transactions.each do |transaction| %>
+            <tr class="text-right hover:bg-neutral-400/10">
+              <td class="text-xs text-center opacity-60">
+                <%= transaction.created_at.strftime('%b-%d-%Y') %>
+              </td>
+              <% if current_user.admin == true %>
+                <td class="text-left">
+                  <p><%= find_user_info(transaction.user_id).email %></p>
+                  <p class="capitalize text-xs opacity-50">
+                    <%= find_user_info(transaction.user_id).first_name %>
+                    <%= find_user_info(transaction.user_id).last_name %>
+                  </p>
+                </td>
+              <% end %>
+              <td class="font-semibold text-center">
+                <%= button_to stocks_search_path, params: {symbol: transaction.symbol} , :class => "w-full hover:text-yellow-500" do %>
+                  <%= transaction.symbol %>
+                <% end %>
+              </td>
+              <td class="capitalize text-center">
+                <%= transaction.category %>
+              </td>
+              <td class="text-sm">
+                <%= custom_formatter(transaction.quantity, 6, 'stock') %>
+                &#127820;
+              </td>
+              <td>
+                <%=
+                  custom_formatter(
+                    transaction.quantity * transaction.price_per_quantity,
+                  )
+                %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
