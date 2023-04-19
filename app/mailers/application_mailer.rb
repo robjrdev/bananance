@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "stockappsuperad@gmail.com"
+  default from: "bananance@zohomail.com"
   layout "mailer"
 end

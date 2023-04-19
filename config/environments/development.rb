@@ -37,17 +37,21 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = :smtp
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    authentication: :plain,
-    address: 'smtp.mailgun.org',
-    port: 587,
-    domain: 'postmaster@sandbox0e1a57b8630240bfa6acb228f492bcc1.mailgun.org',
-    user_name: 'postmaster@sandbox0e1a57b8630240bfa6acb228f492bcc1.mailgun.org',
-    password: 'e0c80e7aa84e3848374c1ec9e379ff76-2cc48b29-f3e5d13f',
-  }
-
+    address:              'smtp.zoho.com', 
+    port:                 587,
+    domain:               'http:localhost:3000',
+    user_name:            'bananance@zohomail.com', 
+    password:             'Superadminavion24!',
+    authentication:       'plain',
+    enable_starttls_auto: true,
+    open_timeout:         5,
+    read_timeout:         5 }
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
