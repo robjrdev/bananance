@@ -33,6 +33,11 @@ class PagesController < ApplicationController
     redirect_to dashboard_path if current_user.status != 'pending'
   end
 
+  def wallet
+    # wallet page
+    redirect_to dashboard_path if current_user.status == 'pending'
+  end
+
   def market
     # market overview page
   end
@@ -40,8 +45,10 @@ class PagesController < ApplicationController
   def admin
     redirect_to dashboard_path if logged_in? && !current_user.admin
     @users = User.all
-    @pending_users = @users.select { |user| user.status == 'pending' && user.admin == false }
-    @approved_users = @users.select { |user| user.status == 'approved' && user.admin == false }
+    @pending_users =
+      @users.select { |user| user.status == 'pending' && user.admin == false }
+    @approved_users =
+      @users.select { |user| user.status == 'approved' && user.admin == false }
   end
 
   def set_market_list

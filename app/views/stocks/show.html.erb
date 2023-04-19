@@ -1,3 +1,5 @@
+<% provide(:title, "#{@quote.latest_price} | #{@stock.symbol} Banana") %>
+
 <section class="py-8">
   <div class="wrapper | grid grid-cols-[auto_1fr] items-center gap-8">
     <div class="text-center border-r-2 border-white/20 px-8 ">
@@ -6,8 +8,6 @@
       </p>
       <p class="text-sm opacity-60 max-w-[175px]"><%= @stock.name %></p>
       <div class="mx-auto p-2 mt-4">
-        <p class="text-xs font-semibold opacity-60">Current Price</p>
-        <p class="text-xl font-bold"><%= @quote.latest_price %></p>
         <p class="text-xs font-semibold opacity-60">You own:</p>
         <p class="text-sm font-bold">
           <%= custom_formatter(@shares, 6, 'stock') %>
@@ -16,6 +16,10 @@
       </div>
     </div>
     <div class="flex flex-wrap gap-8">
+      <div class="stock-info-card">
+        <p class="text-xs font-semibold opacity-60">Current Price</p>
+        <p class="text-lg font-bold"><%= @quote.latest_price %></p>
+      </div>
       <div class="stock-info-card">
         <p class="text-xs font-semibold opacity-60">24h Change</p>
         <p
@@ -39,8 +43,8 @@
     </div>
   </div>
 </section>
-<section class="">
-  <div class="wrapper">
+<section class="pb-12">
+  <div class="wrapper | scale-[1.175]">
     <%
       @red = 'hsl(352,91%,62%)'
       @green = 'hsl(157,87%,43%)'
@@ -101,3 +105,23 @@
     %>
   </div>
 </section>
+
+<%  %>
+
+<style>
+  :where(#buy-slider, #sell-slider) {
+    accent-color: #eab308;
+  }
+
+  :where(#buy-slider, #sell-slider)::-webkit-slider-thumb {
+    /* outline: 2px solid red; */
+
+    /* background: var(--banana) !important; */
+  }
+
+  :where(#buy-slider, #sell-slider)::-moz-range-thumb {
+    /* outline: 2px solid red; */
+
+    /* background: var(--banana) !important; */
+  }
+</style>
