@@ -26,7 +26,7 @@
             <p class="text-sm"><%= current_user.email %></p>
           </li>
           <li>
-            <p class="text-xs opacity-70">Fiat</p>
+            <p class="text-xs opacity-70">Funds</p>
             <%=
               link_to number_to_currency(current_user.cash, precision: 2),
                       wallet_path,
