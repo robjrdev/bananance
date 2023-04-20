@@ -2,17 +2,19 @@ Rails
   .application
   .routes
   .draw do
-    scope '/dashboard' do
-      get '/stocks', to: 'stocks#index', as: :stocks_index
-      get '/stocks/search', to: 'stocks#new', as: :stocks_new
-      get '/stocks/:symbol', to: 'stocks#show', as: :stocks_show
-      post '/stocks/', to: 'stocks#search', as: :stocks_search
-      get '/stocks/:symbol/buy', to: 'transactions#buy_stock', as: :buy_stock
-      get '/stocks/:symbol/sell', to: 'transactions#sell_stock', as: :sell_stock
-      post '/stocks/:symbol',
+    scope '/trade' do
+      get '/:symbol', to: 'stocks#show', as: :stocks_show
+      get '/:symbol/buy', to: 'transactions#buy_stock', as: :buy_stock
+      get '/:symbol/sell', to: 'transactions#sell_stock', as: :sell_stock
+      post '/:symbol',
            to: 'transactions#save_transaction',
            as: :save_transaction
     end
+
+    get '/stocks', to: 'stocks#index', as: :stocks_index
+    post '/search/', to: 'stocks#search', as: :stocks_search
+    get '/stocks/search', to: 'stocks#new', as: :stocks_new
+    post '/lookup', to: 'stocks#look_up', as: :stocks_lookup
 
     get '/wallet', to: 'pages#wallet', as: :wallet
     get '/transactions', to: 'transactions#index', as: :transactions

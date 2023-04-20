@@ -115,3 +115,42 @@
     </div>
   </div>
 </section>
+
+<section class="py-8 bg-neutral-200/10 overflow-hidden rounded-full mb-16">
+  <div class="wrapper">
+    <div class="navigation">
+      <div class="flex flex-wrap gap-0 p-4">
+        <input
+          type="radio"
+          class="stock-list-selector"
+          name="show-stock-list"
+          id="owned-radio"
+        />
+        <input
+          type="radio"
+          class="stock-list-selector"
+          name="show-stock-list"
+          id="hot-radio"
+        />
+        <label
+          id="owned-label"
+          for="owned-radio"
+          class="gray-label-button | text-lg font-semibold"
+        >
+          <span>&#11088; </span> Favorites
+        </label>
+        <label
+          id="hot-label"
+          for="hot-radio"
+          class="gray-label-button | text-lg font-semibold"
+        >
+          All Stocks
+        </label>
+      </div>
+      <%= form_tag stocks_lookup_path, method: :post do %>
+        <%= text_field_tag :query, '', class: 'bg-transparent' %>
+        <%= submit_tag 'Search' %>
+      <% end %>
+    </div>
+  </div>
+</section>

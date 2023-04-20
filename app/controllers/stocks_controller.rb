@@ -58,7 +58,10 @@ class StocksController < ApplicationController
     end
   end
 
-  def look_up(query)
+  def look_up
     #
+    @search_results = @iex_client.search(params[:query])
+    @stock_results =
+      @search_results.map { |result| client.quote(result.symbol) }
   end
 end

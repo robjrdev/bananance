@@ -82,7 +82,7 @@
         <span> </span>
       </div>
       <hr class="border-b-2 my-2 rounded-full opacity-20" />
-      <ul id="hot-stocks">
+      <ul id="hot-stocks | max-h-screen">
         <% if @gainers_market.empty? %>
           <li class="py-16">
             <%=
@@ -116,7 +116,7 @@
           <% end %>
         <% end %>
       </ul>
-      <ul id="owned-stocks">
+      <ul id="owned-stocks | max-h-screen">
         <% if @user_stocks.empty? %>
           <li class="py-16">
             <%=
