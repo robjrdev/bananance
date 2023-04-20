@@ -8,9 +8,9 @@
 
 #Create admin account - run rails db:seed
 User.create!(
-    email: "stockappsuperad@gmail.com",
-    password: 'superadmin',
-    password_confirmation: 'superadmin',
+    email: Rails.application.credentials.admin_account[:email],
+    password: Rails.application.credentials.admin_account[:password],
+    password_confirmation: Rails.application.credentials.admin_account[:password],
     first_name: 'Admin',
     last_name: "Admin",
     admin: true,
