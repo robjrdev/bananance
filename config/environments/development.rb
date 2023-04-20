@@ -44,10 +44,10 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.zoho.com', 
-    port:                 587,
+    port:                  587,
     domain:               'http:localhost:3000',
-    user_name:            'bananance@zohomail.com', 
-    password:             'Superadminavion24!',
+    user_name:            Rails.application.credentials.zohomail[:user_name], 
+    password:             Rails.application.credentials.zohomail[:password],
     authentication:       'plain',
     enable_starttls_auto: true,
     open_timeout:         5,
