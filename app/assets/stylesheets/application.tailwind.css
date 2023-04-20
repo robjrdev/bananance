@@ -103,6 +103,10 @@
     @apply hidden;
   }
 
+  .black-table-label {
+    @apply bg-neutral-500/10 my-2 grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr] items-center gap-4 text-xs opacity-80 px-4 py-2 text-center;
+  }
+
   .fade {
     animation-name: fadeInOut;
     animation-duration: 4s;
@@ -115,16 +119,22 @@
 #owned-radio:checked ~ #owned-label,
 #hot-radio:checked ~ #hot-label,
 #pending-radio:checked ~ #pending-label,
-#approved-radio:checked ~ #approved-label {
+#approved-radio:checked ~ #approved-label,
+#favorites-radio:checked ~ #favorites-label,
+#all-radio:checked ~ #all-label {
   @apply text-yellow-400 bg-yellow-200/10;
 }
 #hot-stocks,
-#owned-stocks {
+#owned-stocks,
+#favorites-table,
+#turbo-table {
   display: none;
 }
 
 .wrapper:has(#owned-radio:checked) #owned-stocks,
-.wrapper:has(#hot-radio:checked) #hot-stocks {
+.wrapper:has(#hot-radio:checked) #hot-stocks,
+.wrapper:has(#favorites-radio:checked) #favorites-table,
+.wrapper:has(#all-radio:checked) #turbo-table {
   display: block;
 }
 

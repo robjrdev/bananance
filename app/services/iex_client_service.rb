@@ -34,9 +34,11 @@ class IexClientService
       end
   end
 
-  def search(query)
+  def ref_data_symbols
     Rails
       .cache
-      .fetch("search_#{query}", expires_in: 24.hours) { client.search(query) }
+      .fetch('ref_data_symbols', expires_in: 24.hours) do
+        client.ref_data_symbols
+      end
   end
 end

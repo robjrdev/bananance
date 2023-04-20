@@ -1,5 +1,5 @@
 class StocksController < ApplicationController
-  before_action :initialize_iex_client, only: %i[search show]
+  before_action :initialize_iex_client, only: %i[search show, look_up]
 
   def index
     #
@@ -53,28 +53,49 @@ class StocksController < ApplicationController
 
       redirect_to stocks_show_path(@stock.symbol)
     rescue IEX::Errors::SymbolNotFoundError
-      flash[:danger] = 'Symbol not found. Please input a valid symbol.'
+      flash[:error] = ['Symbol not found. Please input a valid symbol.']
       render :new
     end
   end
 
   def look_up
-    #
-    @search_results = @iex_client.search(params[:query])
-    @stock_results =
-      @search_results.map { |result| client.quote(result.symbol) }
+    if params[:query] == '' || params[:query].nil? || params[:query].empty?
+      flash[:error] = ['Type a symbol or company name']
+      redirect_to market_path and return
+    elsif params[:query].length < 3
+      flash[:error] = ['Too many matches']
+      redirect_to market_path and return
+    end
 
-    respond_to do |format|
-      format.turbo_stream do
-        ender turbo_stream:
-                turbo_stream.replace(
-                  'stocks-results-table',
-                  partial: 'look_up_table',
-                  locals: {
-                    stocks: @stocks,
-                  },
-                )
+    #
+    # debugger
+    begin
+      @all_symbols ||= @iex_client.ref_data_symbols
+      @filtered_symbols =
+        @all_symbols.select do |symbol|
+          symbol.symbol.downcase.include?(params[:query].downcase) ||
+            symbol.name.downcase.include?(params[:query].downcase)
+        end
+      @stocks =
+        @filtered_symbols.map { |symbol| @iex_client.quote(symbol.symbol) }
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream:
+                   turbo_stream.replace(
+                     'stocks-results-table',
+                     partial: 'look_up_table',
+                     locals: {
+                       stocks: @stocks,
+                     },
+                   )
+        end
       end
+    rescue Faraday::ConnectionFailed => e
+      flash[:error] = [
+        'Failed to connect to the server. Please try again later.',
+      ]
+      redirect_to market_path
     end
   end
 end
