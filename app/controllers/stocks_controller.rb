@@ -63,5 +63,18 @@ class StocksController < ApplicationController
     @search_results = @iex_client.search(params[:query])
     @stock_results =
       @search_results.map { |result| client.quote(result.symbol) }
+
+    respond_to do |format|
+      format.turbo_stream do
+        ender turbo_stream:
+                turbo_stream.replace(
+                  'stocks-results-table',
+                  partial: 'look_up_table',
+                  locals: {
+                    stocks: @stocks,
+                  },
+                )
+      end
+    end
   end
 end
