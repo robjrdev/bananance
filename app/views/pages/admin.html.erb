@@ -49,7 +49,7 @@
       </thead>
       <tbody>
         <% if @pending_users.empty? %>
-          <tr>
+          <tr class="pending-users">
             <td colspan="5" class="text-center font-bold">No Pending Users</td>
           </tr>
         <% else %>
@@ -91,7 +91,7 @@
           <% end %>
         <% end %>
         <% if @approved_users.empty? %>
-          <tr>
+          <tr class="approved-users">
             <td colspan="5" class="text-center font-bold">No Approved Users</td>
           </tr>
         <% else %>
