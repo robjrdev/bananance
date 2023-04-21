@@ -47,7 +47,19 @@ class PagesController < ApplicationController
 
   def market
     # market overview page
-    @favorites = UserStock.where(user_id: current_user.id).where(favorite: true)
+    @favorite_stocks = UserStock.where(user_id: current_user.id, favorite: true)
+    @favorites =
+      @favorite_stocks.map do |favorite_stock|
+        stock = Stock.find(favorite_stock.stock_id)
+        quote = @iex_client.quote(stock.symbol)
+        {
+          company_name: stock.name,
+          symbol: stock.symbol,
+          quantity: favorite_stock.quantity,
+          latest_price: quote.latest_price,
+          change_percent_s: quote.change_percent_s,
+        }
+      end
   end
 
   def admin

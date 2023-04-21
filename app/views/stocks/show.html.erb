@@ -9,7 +9,7 @@
       <p class="text-sm opacity-60 max-w-[175px]"><%= @stock.name %></p>
       <div class="mx-auto p-2 mt-4 text-left flex flex-wrap items-center gap-2">
         <%=
-          button_to "<i class='fa-#{@stock.favorite ? 'solid' : 'regular'} text-2xl fa-star text-yellow-500 rounded-md hover:bg-neutral-400/20 p-2 '></i>"
+          button_to "<i class='fa-#{@is_favorite ? 'solid' : 'regular'} text-2xl fa-star text-yellow-500 rounded-md hover:bg-neutral-400/20 p-2 '></i>"
                       .html_safe,
                     stock_favorite_path,
                     form: {

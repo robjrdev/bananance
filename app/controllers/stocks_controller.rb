@@ -18,11 +18,22 @@ class StocksController < ApplicationController
         }
       end
 
-    @favorites =
+    @favorite_stocks =
       UserStock
-        .where(user_id: current_user.id)
+        .where(user_id: current_user.id, favorite: true)
         .where('quantity > ?', 0)
-        .where(favorite: true)
+    @favorites =
+      @favorite_stocks.map do |favorite_stock|
+        stock = Stock.find(favorite_stock.stock_id)
+        quote = @iex_client.quote(stock.symbol)
+        {
+          company_name: stock.name,
+          symbol: stock.symbol,
+          quantity: favorite_stock.quantity,
+          latest_price: quote.latest_price,
+          change_percent_s: quote.change_percent_s,
+        }
+      end
   end
 
   def new
@@ -31,9 +42,11 @@ class StocksController < ApplicationController
 
   def show
     #
+
     @stock = Stock.find_by(symbol: params[:symbol])
-    @user_stock = current_user.user_stocks.find_by(stock: @stock)
+    @user_stock = current_user.user_stocks.find_or_initialize_by(stock: @stock)
     @shares = @user_stock.try(:quantity) || 0
+    @is_favorite = @user_stock.favorite
 
     # chart part
     @chart = @iex_client.chart(@stock.symbol)
@@ -121,8 +134,9 @@ class StocksController < ApplicationController
 
   def favorite
     @stock = Stock.find_by(symbol: params[:symbol])
-    @stock.toggle(:favorite)
-    @stock.save
+    @user_stock = current_user.user_stocks.find_or_initialize_by(stock: @stock)
+    @user_stock.toggle(:favorite)
+    @user_stock.save
     redirect_to stocks_show_path
   end
 end

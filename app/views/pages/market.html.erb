@@ -125,14 +125,14 @@
           class="stock-list-selector"
           name="show-stock-list"
           id="favorites-radio"
-          <%= @favorites.nil? ? nil : 'checked' %>
+          <%= @favorites.empty? ? nil : 'checked' %>
         />
         <input
           type="radio"
           class="stock-list-selector"
           name="show-stock-list"
           id="all-radio"
-          <%= @favorites.nil? ? 'checked' : nil %>
+          <%= @favorites.empty? ? 'checked' : nil %>
         />
         <label
           id="favorites-label"
@@ -160,7 +160,9 @@
       <% end %>
     </div>
     <div>
-      <ul class="flex flex-col justify-start items-stretch max-h-screen">
+      <ul
+        class="flex flex-col justify-start items-stretch max-h-screen min-h-[60vh]"
+      >
         <li class="black-table-label">
           <span> </span>
           <span class="text-left">Name</span>
@@ -183,7 +185,7 @@
           <% end %>
         </div>
         <div id="favorites-table">
-          <% if @favorites.nil? %>
+          <% if @favorites.empty? %>
             <li class="py-16">
               <%=
                 image_tag 'not-found-data.png',
@@ -195,28 +197,28 @@
           <% else %>
             <% @favorites.each do |stock| %>
               <% cache stock do %>
-                <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
+                <%= button_to stocks_search_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
                   <span class="text-2xl">&#127820;</span>
                   <span class="font-semibold text-left"><%=
-                      stock.company_name
+                      stock[:company_name]
                     %>
                     <i class="text-sm opacity-60 not-italic"><%=
-                        stock.symbol
+                        stock[:symbol]
                       %></i>
                   </span>
                   <span class="text-sm"><%=
-                      number_to_currency(stock.latest_price, precision: 2)
+                      number_to_currency(stock[:latest_price], precision: 2)
                     %></span>
                   <span
-                    class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                    class="text-sm <%= stock[:change_percent_s].to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
                   >
-                    <%= stock.change_percent_s %>
+                    <%= stock[:change_percent_s] %>
                   </span>
                   <span class="text-sm"><%=
-                      custom_formatter(stock.latest_volume, 6, 'stock')
+                      custom_formatter(stock[:latest_volume], 6, 'stock')
                     %></span>
                   <span class="text-sm"><%=
-                      custom_formatter(stock.market_cap.to_i)
+                      custom_formatter(stock[:market_cap].to_i)
                     %></span>
                 <% end %>
               <% end %>
