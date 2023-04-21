@@ -41,6 +41,8 @@ class PagesController < ApplicationController
   def wallet
     # wallet page
     redirect_to dashboard_path if current_user.status == 'pending'
+
+    @user = @current_user
   end
 
   def market

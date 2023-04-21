@@ -75,7 +75,7 @@
   }
 
   .notice-message {
-    @apply px-4 py-1 rounded-md shadow-sm dark:shadow-white/5 text-white text-base fade;
+    @apply px-4 py-1 rounded-md shadow-sm dark:shadow-white/5 text-white text-base;
   }
 
   .form-label {
@@ -121,20 +121,26 @@
 #pending-radio:checked ~ #pending-label,
 #approved-radio:checked ~ #approved-label,
 #favorites-radio:checked ~ #favorites-label,
-#all-radio:checked ~ #all-label {
+#all-radio:checked ~ #all-label,
+#deposit-radio:checked ~ #deposit-label,
+#withdraw-radio:checked ~ #withdraw-label {
   @apply text-yellow-400 bg-yellow-200/10;
 }
 #hot-stocks,
 #owned-stocks,
 #favorites-table,
-#turbo-table {
+#turbo-table,
+#deposit-transaction,
+#withdraw-transaction {
   display: none;
 }
 
 .wrapper:has(#owned-radio:checked) #owned-stocks,
 .wrapper:has(#hot-radio:checked) #hot-stocks,
 .wrapper:has(#favorites-radio:checked) #favorites-table,
-.wrapper:has(#all-radio:checked) #turbo-table {
+.wrapper:has(#all-radio:checked) #turbo-table,
+.wrapper:has(#deposit-radio:checked) #deposit-transaction,
+.wrapper:has(#withdraw-radio:checked) #withdraw-transaction {
   display: block;
 }
 
@@ -149,6 +155,7 @@
 
 @keyframes fadeInOut {
   0% {
+    z-index: 999;
     opacity: 0;
   }
 
@@ -160,6 +167,7 @@
   100% {
     opacity: 0;
     visibility: hidden;
+    z-index: -1;
   }
 }
 

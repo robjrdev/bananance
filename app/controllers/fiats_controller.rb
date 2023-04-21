@@ -13,7 +13,7 @@ class FiatsController < ApplicationController
 
     if amount <= 0
       flash[:error] = ['Amount must be greater than zero']
-      render :deposit, status: :unprocessable_entity
+      redirect_to wallet_path
     else
       if @user.update_attribute(:cash, @user.cash + amount)
         fiat =
@@ -23,7 +23,7 @@ class FiatsController < ApplicationController
         redirect_to dashboard_path
       else
         flash[:error] = ['Deposit failed']
-        render :deposit, status: :unprocessable_entity
+        redirect_to wallet_path
       end
     end
   end
@@ -34,10 +34,10 @@ class FiatsController < ApplicationController
 
     if amount <= 0
       flash[:error] = ['Amount must be greater than zero']
-      render :withdraw, status: :unprocessable_entity
+      redirect_to wallet_path
     elsif amount > @user.cash
       flash[:error] = ['Insufficient funds']
-      render :withdraw, status: :unprocessable_entity
+      redirect_to wallet_path
     else
       if @user.update_attribute(:cash, @user.cash - amount)
         fiat =
@@ -47,7 +47,7 @@ class FiatsController < ApplicationController
         redirect_to dashboard_path
       else
         flash[:error] = ['Withdraw failed']
-        render :withdraw, status: :unprocessable_entity
+        redirect_to wallet_path
       end
     end
   end

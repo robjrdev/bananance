@@ -1,5 +1,5 @@
 class StocksController < ApplicationController
-  before_action :initialize_iex_client, only: %i[search show, look_up]
+  before_action :initialize_iex_client, only: %i[search show look_up]
 
   def index
     #

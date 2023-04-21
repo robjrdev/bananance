@@ -1,2 +1,74 @@
-<%= link_to 'Deposit', deposit_fiat_path(current_user) %>
-<%= link_to 'Withdraw', withdraw_fiat_path(current_user) %>
+<section>
+  <div class="wrapper">
+    <div class="flex flex-wrap">
+      <input
+        type="radio"
+        class="stock-list-selector"
+        name="show-fiat-transaction"
+        id="deposit-radio"
+        checked
+      />
+      <input
+        type="radio"
+        class="stock-list-selector"
+        name="show-fiat-transaction"
+        id="withdraw-radio"
+      />
+      <label
+        for="deposit-radio"
+        id="deposit-label"
+        class="gray-label-button text-xl font-bold"
+        >Deposit Fund</label
+      >
+      <label
+        for="withdraw-radio"
+        id="withdraw-label"
+        class="gray-label-button text-xl font-bold"
+        >Withdraw Fund</label
+      >
+    </div>
+    <hr class="border-b-2 border-white/10" />
+    <div class="py-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+      <div id="deposit-transaction" class="">
+        <%= form_tag create_deposit_fiat_path(@user), method: :post, class: "flex flex-col items-stretch gap-4" do %>
+          <div
+            class="border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md w-full grid grid-cols-[auto_1fr_auto] items-center"
+          >
+            <%= label_tag :amount, 'Amount' %>
+            <%=
+              number_field_tag :amount,
+                               0,
+                               class:
+                                 'hide-arrows | bg-transparent focus:ring-0 ring-0 border-0 text-right'
+            %>
+            <span>USD</span>
+          </div>
+          <%= submit_tag 'Deposit', class: 'yellow-button' %>
+        <% end %>
+      </div>
+
+      <div id="withdraw-transaction" class="">
+        <%= form_tag  create_withdrawal_fiat_path(@user), method: :post, class: "flex flex-col items-stretch gap-4" do %>
+          <div
+            class="border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md w-full grid grid-cols-[auto_1fr_auto] items-center"
+          >
+            <%= label_tag :amount, 'Amount' %>
+            <%=
+              number_field_tag :amount,
+                               0,
+                               class:
+                                 'hide-arrows | bg-transparent focus:ring-0 ring-0 border-0 text-right'
+            %>
+            <span>USD</span>
+          </div>
+          <%= submit_tag 'Withdraw', class: 'yellow-button' %>
+        <% end %>
+      </div>
+      <div
+        class="bg-white/10 rounded-md overflow-hidden grid place-items-center min-h-[30vh]"
+      >
+        <p>placeholder</p>
+      </div>
+    </div>
+  </div>
+</section>
