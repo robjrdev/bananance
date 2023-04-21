@@ -47,6 +47,7 @@ class PagesController < ApplicationController
 
   def market
     # market overview page
+    @favorites = UserStock.where(user_id: current_user.id).where(favorite: true)
   end
 
   def admin
