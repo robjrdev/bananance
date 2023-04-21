@@ -17,6 +17,12 @@ class StocksController < ApplicationController
           change_percent_s: quote.change_percent_s,
         }
       end
+
+    @favorites =
+      UserStock
+        .where(user_id: current_user.id)
+        .where('quantity > ?', 0)
+        .where(favorite: true)
   end
 
   def new
@@ -111,5 +117,12 @@ class StocksController < ApplicationController
       ]
       redirect_to market_path
     end
+  end
+
+  def favorite
+    @stock = Stock.find_by(symbol: params[:symbol])
+    @stock.toggle(:favorite)
+    @stock.save
+    redirect_to stocks_show_path
   end
 end

@@ -7,12 +7,23 @@
         <span>&#127820;</span><span><%= @stock.symbol %></span>
       </p>
       <p class="text-sm opacity-60 max-w-[175px]"><%= @stock.name %></p>
-      <div class="mx-auto p-2 mt-4">
-        <p class="text-xs font-semibold opacity-60">You own:</p>
-        <p class="text-sm font-bold">
-          <%= custom_formatter(@shares, 6, 'stock') %>
-          <span>&#127820;</span>
-        </p>
+      <div class="mx-auto p-2 mt-4 text-left flex flex-wrap items-center gap-2">
+        <%=
+          button_to "<i class='fa-#{@stock.favorite ? 'solid' : 'regular'} text-2xl fa-star text-yellow-500 rounded-md hover:bg-neutral-400/20 p-2 '></i>"
+                      .html_safe,
+                    stock_favorite_path,
+                    form: {
+                      class: '',
+                    },
+                    method: :put
+        %>
+        <div>
+          <p class="text-xs font-semibold opacity-60">You own:</p>
+          <p class="text-sm font-bold">
+            <%= custom_formatter(@shares, 6, 'stock') %>
+            <span>&#127820;</span>
+          </p>
+        </div>
       </div>
     </div>
     <div class="flex flex-wrap gap-2">

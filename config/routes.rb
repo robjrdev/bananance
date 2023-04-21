@@ -9,6 +9,7 @@ Rails
       post '/:symbol',
            to: 'transactions#save_transaction',
            as: :save_transaction
+      put '/:symbol', to: 'stocks#favorite', as: :stock_favorite
     end
 
     get '/portfolio', to: 'stocks#index', as: :stocks_index
