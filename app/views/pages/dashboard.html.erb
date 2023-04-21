@@ -39,119 +39,146 @@
   </div>
 </section>
 <section class="min-h-[75vh] py-8">
-  <div class="wrapper">
-    <h1 class="text-4xl font-bold">Markets</h1>
-    <div class="flex flex-wrap gap-2 p-4">
-      <input
-        type="radio"
-        class="stock-list-selector"
-        name="show-stock-list"
-        id="owned-radio"
-        <%= @user_stocks.empty? ? nil : 'checked' %>
-      />
-      <input
-        type="radio"
-        class="stock-list-selector"
-        name="show-stock-list"
-        id="hot-radio"
-        <%= @user_stocks.empty? ? 'checked' : nil %>
-      />
-      <label
-        id="owned-label"
-        for="owned-radio"
-        class="gray-label-button | text-lg font-semibold"
-      >
-        Holdings
-      </label>
-      <label
-        id="hot-label"
-        for="hot-radio"
-        class="gray-label-button | text-lg font-semibold"
-      >
-        &#128293; Hot
-      </label>
-    </div>
-    <div class="dash-table">
-      <div
-        class="dash-table_header | grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 text-xs opacity-60 px-4 py-2 text-center"
-      >
-        <span> </span>
-        <span class="text-left">Name</span>
-        <span>Latest Price</span>
-        <span>24h Change</span>
-        <span> </span>
+  <div
+    class="wrapper | grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-start"
+  >
+    <div>
+      <div class="flex flex-wrap-reverse justify-between items-center gap-4">
+        <h1 class="text-4xl font-bold grow-[30]">Markets</h1>
+        <%= form_with scope: @stock, url: stocks_search_path, class: "grow-[1]" do |f| %>
+          <div
+            class="border-2 border-black/10 dark:border-white/10 dark:bg-neutral-800/80 rounded-md opacity-60 grid grid-cols-[1fr_auto]"
+          >
+            <%=
+              f.text_field :symbol,
+                           onkeyup: 'this.value = this.value.toUpperCase();',
+                           placeholder: 'AMZN, TSLA, ...',
+                           class: 'ring-0 focus:ring-0 bg-transparent border-0'
+            %>
+            <%= f.button type: 'submit', class: "yellow-button" do %>
+              <span class="text-xl font-bold">&#8981;</span>
+            <% end %>
+          </div>
+        <% end %>
       </div>
-      <hr class="border-b-2 my-2 rounded-full opacity-20" />
-      <ul id="hot-stocks" class="max-h-screen">
-        <% if @gainers_market.empty? %>
-          <li class="py-16">
-            <%=
-              image_tag 'not-found-data.png',
-                        alt: 'Data not found',
-                        class: 'mx-auto mb-4'
-            %>
-            <p class="text-center text-xs opacity-40">No records found.</p>
-          </li>
-        <% else %>
-          <% @gainers_market.each do |stock| %>
-            <% cache stock do %>
-              <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
-                <span class="text-2xl">&#127820;</span>
-                <span class="font-semibold text-left"><%= stock.company_name %>
-                  <i class="text-sm opacity-60 not-italic"><%=
-                      stock.symbol
-                    %></i>
-                </span>
-                <span class="text-sm"><%=
-                    number_to_currency(stock.latest_price, precision: 2)
-                  %></span>
-                <span
-                  class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
-                >
-                  <%= stock.change_percent_s %>
-                </span>
-                <span class="text-sm font-semibold text-yellow-500">Trade</span>
+      <div class="flex flex-wrap gap-2 p-4">
+        <input
+          type="radio"
+          class="stock-list-selector"
+          name="show-stock-list"
+          id="owned-radio"
+          <%= @user_stocks.empty? ? nil : 'checked' %>
+        />
+        <input
+          type="radio"
+          class="stock-list-selector"
+          name="show-stock-list"
+          id="hot-radio"
+          <%= @user_stocks.empty? ? 'checked' : nil %>
+        />
+        <label
+          id="owned-label"
+          for="owned-radio"
+          class="gray-label-button | text-lg font-semibold"
+        >
+          Holdings
+        </label>
+        <label
+          id="hot-label"
+          for="hot-radio"
+          class="gray-label-button | text-lg font-semibold"
+        >
+          &#128293; Hot
+        </label>
+      </div>
+      <div class="dash-table">
+        <div
+          class="dash-table_header | grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 text-xs opacity-60 px-4 py-2 text-center"
+        >
+          <span> </span>
+          <span class="text-left">Name</span>
+          <span>Latest Price</span>
+          <span>24h Change</span>
+          <span> </span>
+        </div>
+        <hr class="border-b-2 my-2 rounded-full opacity-20" />
+        <ul id="hot-stocks" class="max-h-screen">
+          <% if @gainers_market.empty? %>
+            <li class="py-16">
+              <%=
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
+              %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
+            </li>
+          <% else %>
+            <% @gainers_market.each do |stock| %>
+              <% cache stock do %>
+                <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
+                  <span class="text-2xl">&#127820;</span>
+                  <span class="font-semibold text-left"><%=
+                      stock.company_name
+                    %>
+                    <i class="text-sm opacity-60 not-italic"><%=
+                        stock.symbol
+                      %></i>
+                  </span>
+                  <span class="text-sm"><%=
+                      number_to_currency(stock.latest_price, precision: 2)
+                    %></span>
+                  <span
+                    class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                  >
+                    <%= stock.change_percent_s %>
+                  </span>
+                  <span class="text-sm font-semibold text-yellow-500"
+                    >Trade</span
+                  >
+                <% end %>
               <% end %>
             <% end %>
           <% end %>
-        <% end %>
-      </ul>
-      <ul id="owned-stocks" class="max-h-screen">
-        <% if @user_stocks.empty? %>
-          <li class="py-16">
-            <%=
-              image_tag 'not-found-data.png',
-                        alt: 'Data not found',
-                        class: 'mx-auto mb-4'
-            %>
-            <p class="text-center text-xs opacity-40">No records found.</p>
-          </li>
-        <% else %>
-          <% @user_stocks.each do |stock| %>
-            <% cache stock do %>
-              <%= button_to stocks_search_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
-                <span class="text-2xl">&#127820;</span>
-                <span class="font-semibold text-left"><%=
-                    stock[:company_name]
-                  %>
-                  <i class="text-sm opacity-60 not-italic"><%=
-                      stock[:symbol]
-                    %></i>
-                </span>
-                <span class="text-sm"><%=
-                    number_to_currency(stock[:latest_price], precision: 2)
-                  %></span>
-                <span
-                  class="text-sm <%= stock[:change_percent_s].to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
-                >
-                  <%= stock[:change_percent_s] %>
-                </span>
-                <span class="text-sm font-semibold text-yellow-500">Trade</span>
+        </ul>
+        <ul id="owned-stocks" class="max-h-screen">
+          <% if @user_stocks.empty? %>
+            <li class="py-16">
+              <%=
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
+              %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
+            </li>
+          <% else %>
+            <% @user_stocks.each do |stock| %>
+              <% cache stock do %>
+                <%= button_to stocks_search_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
+                  <span class="text-2xl">&#127820;</span>
+                  <span class="font-semibold text-left"><%=
+                      stock[:company_name]
+                    %>
+                    <i class="text-sm opacity-60 not-italic"><%=
+                        stock[:symbol]
+                      %></i>
+                  </span>
+                  <span class="text-sm"><%=
+                      number_to_currency(stock[:latest_price], precision: 2)
+                    %></span>
+                  <span
+                    class="text-sm <%= stock[:change_percent_s].to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                  >
+                    <%= stock[:change_percent_s] %>
+                  </span>
+                  <span class="text-sm font-semibold text-yellow-500"
+                    >Trade</span
+                  >
+                <% end %>
               <% end %>
             <% end %>
           <% end %>
-        <% end %>
-      </ul>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
