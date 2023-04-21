@@ -1,4 +1,4 @@
-<section>
+<section class="py-8">
   <div class="wrapper">
     <div class="flex flex-wrap">
       <input
@@ -31,37 +31,51 @@
     <div class="py-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
       <div id="deposit-transaction" class="">
         <%= form_tag create_deposit_fiat_path(@user), method: :post, class: "flex flex-col items-stretch gap-4" do %>
+          <p class="flex flex-wrap justify-between opacity-80">
+            <span class="">Funds:</span
+            ><span class="ml-auto font-semibold"><%=
+                custom_formatter(current_user.cash, 2, 'custom', '$')
+              %></span>
+          </p>
           <div
-            class="border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md w-full grid grid-cols-[auto_1fr_auto] items-center"
+            class="border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md w-full grid grid-cols-[auto_1fr_auto] items-center opacity-60"
           >
-            <%= label_tag :amount, 'Amount' %>
+            <%= label_tag :amount, 'Amount', class: '' %>
             <%=
               number_field_tag :amount,
                                0,
                                class:
-                                 'hide-arrows | bg-transparent focus:ring-0 ring-0 border-0 text-right'
+                                 'hide-arrows | bg-transparent focus:ring-0 ring-0 border-0 text-right',
+                               step: :any
             %>
             <span>USD</span>
           </div>
-          <%= submit_tag 'Deposit', class: 'yellow-button' %>
+          <%= submit_tag 'Deposit', class: 'yellow-button | font-bold' %>
         <% end %>
       </div>
 
       <div id="withdraw-transaction" class="">
         <%= form_tag  create_withdrawal_fiat_path(@user), method: :post, class: "flex flex-col items-stretch gap-4" do %>
+          <p class="flex flex-wrap justify-between opacity-80">
+            <span class="">Funds:</span
+            ><span class="ml-auto font-semibold"><%=
+                custom_formatter(current_user.cash, 2, 'custom', '$')
+              %></span>
+          </p>
           <div
-            class="border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md w-full grid grid-cols-[auto_1fr_auto] items-center"
+            class="border-black/10 dark:border-white/10 dark:bg-neutral-800/80 px-4 rounded-md w-full grid grid-cols-[auto_1fr_auto] items-center opacity-60"
           >
-            <%= label_tag :amount, 'Amount' %>
+            <%= label_tag :amount, 'Amount', class: '' %>
             <%=
               number_field_tag :amount,
                                0,
                                class:
-                                 'hide-arrows | bg-transparent focus:ring-0 ring-0 border-0 text-right'
+                                 'hide-arrows | bg-transparent focus:ring-0 ring-0 border-0 text-right',
+                               step: :any
             %>
             <span>USD</span>
           </div>
-          <%= submit_tag 'Withdraw', class: 'yellow-button' %>
+          <%= submit_tag 'Withdraw', class: 'yellow-button | font-bold' %>
         <% end %>
       </div>
       <div
