@@ -161,7 +161,7 @@
     </div>
     <div>
       <ul
-        class="flex flex-col justify-start items-stretch max-h-screen min-h-[60vh]"
+        class="flex flex-col justify-start items-stretch min-h-[60vh]"
       >
         <li class="black-table-label">
           <span> </span>
@@ -171,7 +171,7 @@
           <span>24h Volume</span>
           <span>Market Cap</span>
         </li>
-        <div id="turbo-table" data-turbo-target="stocks-results-table">
+        <div id="turbo-table" data-turbo-target="stocks-results-table" class="max-h-screen">
           <% if @stocks.nil? %>
             <li class="py-16">
               <%=
@@ -184,7 +184,7 @@
           <% else %>
           <% end %>
         </div>
-        <div id="favorites-table">
+        <div id="favorites-table" class="max-h-screen">
           <% if @favorites.empty? %>
             <li class="py-16">
               <%=
