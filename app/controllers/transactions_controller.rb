@@ -40,11 +40,11 @@ class TransactionsController < ApplicationController
          @user_stock.update(stock: @stock, quantity: updated_quantity)
       if @transaction.buy?
         flash[:success] = [
-          "#{@transaction.quantity} #{@transaction.symbol} bananas bought.",
+          "#{custom_formatter(@transaction.quantity, 6, 'stock', @transaction.symbol, '%n %u')} bananas bought.",
         ]
       elsif @transaction.sell?
         flash[:success] = [
-          "#{@transaction.quantity} #{@transaction.symbol} bananas sold.",
+          "#{custom_formatter(@transaction.quantity, 6, 'stock', @transaction.symbol, '%n %u')} bananas sold.",
         ]
       end
 
