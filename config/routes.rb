@@ -11,7 +11,7 @@ Rails
            as: :save_transaction
     end
 
-    get '/stocks', to: 'stocks#index', as: :stocks_index
+    get '/portfolio', to: 'stocks#index', as: :stocks_index
     post '/search/', to: 'stocks#search', as: :stocks_search
     get '/stocks/search', to: 'stocks#new', as: :stocks_new
     post '/lookup', to: 'stocks#look_up', as: :stocks_lookup
