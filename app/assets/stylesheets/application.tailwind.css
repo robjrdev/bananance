@@ -106,6 +106,9 @@
   .black-table-label {
     @apply bg-neutral-500/10 my-2 grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr] items-center gap-4 text-xs opacity-80 px-4 py-2 text-center;
   }
+  .black-table-label-with-shares {
+    @apply bg-neutral-500/10 my-2 grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-4 text-xs opacity-80 px-4 py-2 text-center;
+  }
 
   .fade {
     animation-name: fadeInOut;

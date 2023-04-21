@@ -1,8 +1,22 @@
 class StocksController < ApplicationController
-  before_action :initialize_iex_client, only: %i[search show look_up]
+  before_action :initialize_iex_client, only: %i[index search show look_up]
 
   def index
     #
+    @owned_stocks =
+      UserStock.where(user_id: current_user.id).where('quantity > ?', 0)
+    @stocks =
+      @owned_stocks.map do |owned_stock|
+        stock = Stock.find(owned_stock.stock_id)
+        quote = @iex_client.quote(stock.symbol)
+        {
+          company_name: stock.name,
+          symbol: stock.symbol,
+          quantity: owned_stock.quantity,
+          latest_price: quote.latest_price,
+          change_percent_s: quote.change_percent_s,
+        }
+      end
   end
 
   def new

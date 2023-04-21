@@ -1,1 +1,151 @@
-<p>test index</p>
+<section class="py-8">
+  <div class="wrapper"><h1 class="text-4xl font-bold">Portfolio</h1></div>
+</section>
+<section class="py-4 bg-neutral-200/10 overflow-hidden rounded-lg mb-16">
+  <div class="wrapper">
+    <div class="navigation flex flex-wrap-reverse items-center">
+      <div class="flex flex-wrap gap-0 p-4 grow-[4]">
+        <input
+          type="radio"
+          class="stock-list-selector"
+          name="show-stock-list"
+          id="favorites-radio"
+          <%= @favorites.nil? ? nil : 'checked' %>
+        />
+        <input
+          type="radio"
+          class="stock-list-selector"
+          name="show-stock-list"
+          id="all-radio"
+          <%= @favorites.nil? ? 'checked' : nil %>
+        />
+        <label
+          id="favorites-label"
+          for="favorites-radio"
+          class="gray-label-button | text-lg font-semibold"
+        >
+          <span>&#11088; </span> Favorites
+        </label>
+        <label
+          id="all-label"
+          for="all-radio"
+          class="gray-label-button | text-lg font-semibold"
+        >
+          Holdings
+        </label>
+      </div>
+      <%= form_with url: stocks_lookup_path, class: 'grid grid-cols-[1fr_auto] basis-[250px] dark:bg-neutral-800/80 rounded-md border-black/10 dark:border-white/0 border-2 hover:border-yellow-500/50 grow items-stretch' do |form| %>
+        <%=
+          form.text_field :query,
+                          class: 'bg-transparent ring-0 focus:ring-0 border-0'
+        %>
+        <%= form.button type: 'submit', class: "px-4" do %>
+          <span class="scale-[2] font-bold">&#8981;</span>
+        <% end %>
+      <% end %>
+    </div>
+    <div>
+      <ul
+        class="flex flex-col justify-start items-stretch max-h-screen min-h-[60vh]"
+      >
+        <li class="black-table-label-with-shares">
+          <span> </span>
+          <span class="text-left">Name</span>
+          <span>Latest Price</span>
+          <span>24h Change</span>
+          <span>Shares</span>
+          <span>24h Volume</span>
+          <span>Market Cap</span>
+        </li>
+        <div id="turbo-table" data-turbo-target="stocks-results-table">
+          <% if @stocks.nil? %>
+            <li class="py-16">
+              <%=
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
+              %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
+            </li>
+          <% else %>
+            <% @stocks.each do |stock| %>
+              <% cache stock do %>
+                <%= button_to stocks_search_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
+                  <span class="text-2xl">&#127820;</span>
+                  <span class="font-semibold text-left"><%=
+                      stock[:company_name]
+                    %>
+                    <i class="text-sm opacity-60 not-italic"><%=
+                        stock[:symbol]
+                      %></i>
+                  </span>
+                  <span class="text-sm"><%=
+                      number_to_currency(stock[:latest_price], precision: 2)
+                    %></span>
+                  <span
+                    class="text-sm <%= stock[:change_percent_s].to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                  >
+                    <%= stock[:change_percent_s] %>
+                  </span>
+                  <span class="text-sm">
+                    <%= custom_formatter(stock[:quantity], 6, 'stock') %>
+                  </span>
+                  <span class="text-sm"><%=
+                      custom_formatter(stock[:latest_volume], 6, 'stock')
+                    %></span>
+                  <span class="text-sm"><%=
+                      custom_formatter(stock[:market_cap].to_i)
+                    %></span>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+        <div id="favorites-table">
+          <% if @favorites.nil? %>
+            <li class="py-16">
+              <%=
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
+              %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
+            </li>
+          <% else %>
+            <% @favorites.each do |stock| %>
+              <% cache stock do %>
+                <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
+                  <span class="text-2xl">&#127820;</span>
+                  <span class="font-semibold text-left"><%=
+                      stock.company_name
+                    %>
+                    <i class="text-sm opacity-60 not-italic"><%=
+                        stock.symbol
+                      %></i>
+                  </span>
+                  <span class="text-sm"><%=
+                      number_to_currency(stock.latest_price, precision: 2)
+                    %></span>
+                  <span
+                    class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                  >
+                    <%= stock.change_percent_s %>
+                  </span>
+                  <span class="text-sm">
+                    <%= custom_formatter(stock[:quantity], 6, 'stock') %>
+                  </span>
+                  <span class="text-sm"><%=
+                      custom_formatter(stock.latest_volume, 6, 'stock')
+                    %></span>
+                  <span class="text-sm"><%=
+                      custom_formatter(stock.market_cap.to_i)
+                    %></span>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </ul>
+    </div>
+  </div>
+</section>

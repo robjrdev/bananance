@@ -159,10 +159,7 @@
         <% end %>
       <% end %>
     </div>
-    <div id="turbo-table" data-turbo-target="stocks-results-table">
-      <%= render partial: 'stocks/look_up_table', locals: { stocks: @stocks } %>
-    </div>
-    <div id="favorites-table">
+    <div>
       <ul class="flex flex-col justify-start items-stretch max-h-screen">
         <li class="black-table-label">
           <span> </span>
@@ -172,43 +169,60 @@
           <span>24h Volume</span>
           <span>Market Cap</span>
         </li>
-        <% if @favorites.nil? %>
-          <li class="py-16">
-            <%=
-              image_tag 'not-found-data.png',
-                        alt: 'Data not found',
-                        class: 'mx-auto mb-4'
-            %>
-            <p class="text-center text-xs opacity-40">No records found.</p>
-          </li>
-        <% else %>
-          <% @favorites.each do |stock| %>
-            <% cache stock do %>
-              <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
-                <span class="text-2xl">&#127820;</span>
-                <span class="font-semibold text-left"><%= stock.company_name %>
-                  <i class="text-sm opacity-60 not-italic"><%=
-                      stock.symbol
-                    %></i>
-                </span>
-                <span class="text-sm"><%=
-                    number_to_currency(stock.latest_price, precision: 2)
-                  %></span>
-                <span
-                  class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
-                >
-                  <%= stock.change_percent_s %>
-                </span>
-                <span class="text-sm"><%=
-                    custom_formatter(stock.latest_volume, 6, 'stock')
-                  %></span>
-                <span class="text-sm"><%=
-                    custom_formatter(stock.market_cap.to_i)
-                  %></span>
+        <div id="turbo-table" data-turbo-target="stocks-results-table">
+          <% if @stocks.nil? %>
+            <li class="py-16">
+              <%=
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
+              %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
+            </li>
+          <% else %>
+          <% end %>
+        </div>
+        <div id="favorites-table">
+          <% if @favorites.nil? %>
+            <li class="py-16">
+              <%=
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
+              %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
+            </li>
+          <% else %>
+            <% @favorites.each do |stock| %>
+              <% cache stock do %>
+                <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
+                  <span class="text-2xl">&#127820;</span>
+                  <span class="font-semibold text-left"><%=
+                      stock.company_name
+                    %>
+                    <i class="text-sm opacity-60 not-italic"><%=
+                        stock.symbol
+                      %></i>
+                  </span>
+                  <span class="text-sm"><%=
+                      number_to_currency(stock.latest_price, precision: 2)
+                    %></span>
+                  <span
+                    class="text-sm <%= stock.change_percent_s.to_i < 0 ? 'text-red-400' : 'text-green-400' %>"
+                  >
+                    <%= stock.change_percent_s %>
+                  </span>
+                  <span class="text-sm"><%=
+                      custom_formatter(stock.latest_volume, 6, 'stock')
+                    %></span>
+                  <span class="text-sm"><%=
+                      custom_formatter(stock.market_cap.to_i)
+                    %></span>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>
-        <% end %>
+        </div>
       </ul>
     </div>
   </div>
