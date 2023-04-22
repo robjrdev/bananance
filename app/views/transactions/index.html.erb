@@ -7,6 +7,35 @@
 
 <section class="py-16">
   <div class="wrapper">
+      <div class="flex flex-wrap gap-2 p-4">
+      <input
+        type="radio"
+        class="transactions-list-selector"
+        name="show-transactions-list"
+        id="fiat-radio"
+        <%= @fiats.nil? ? 'checked' : nil %>
+      />
+      <input
+        type="radio"
+        class="transactions-list-selector"
+        name="show-transactions-list"
+        id="stock-radio"
+        <%= @fiats.nil? ?  nil : 'checked'%>
+      />
+      <label
+        id="stock-label"
+        class="gray-label-button | text-lg font-semibold"
+        for="stock-radio"
+      >
+        Stocks
+      </label>
+
+      <label
+        for="fiat-radio"
+        id="fiat-label"
+        class="gray-label-button | text-lg font-semibold"
+        >Fiats
+      </label>
     <table class="trans-table | w-full">
       <thead class="border-b-[1px]">
         <tr class="table-header | text-right">
@@ -21,14 +50,14 @@
         </tr>
       </thead>
       <tbody class="max-h-screen">
-        <% if @transactions.empty? %>
-          <tr>
+        <% if @transactions.empty?%>
+          <tr class="user-stocks">
             <td colspan="5"></td>
           </tr>
-          <tr>
+          <tr class="user-stocks">
             <td colspan="5"></td>
           </tr>
-          <tr>
+          <tr class="user-stocks">
             <td colspan="5">
               <%=
                 image_tag 'not-found-data.png',
@@ -40,7 +69,7 @@
           </tr>
         <% else %>
           <% @transactions.each do |transaction| %>
-            <tr class="text-right hover:bg-neutral-400/10">
+            <tr class="text-right hover:bg-neutral-400/10 user-stocks">
               <td class="text-xs text-center opacity-60">
                 <%= transaction.created_at.strftime('%b-%d-%Y') %>
               </td>
@@ -69,6 +98,59 @@
                 <%=
                   custom_formatter(
                     transaction.quantity * transaction.price_per_quantity,
+                  )
+                %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+
+        <% if @fiats.empty?%>
+          <tr class="user-fiats">
+            <td colspan="5"></td>
+          </tr>
+          <tr class="user-fiats">
+            <td colspan="5"></td>
+          </tr>
+          <tr class="user-fiats">
+            <td colspan="5">
+              <%=
+                image_tag 'not-found-data.png',
+                          alt: 'Data not found',
+                          class: 'mx-auto mb-4'
+              %>
+              <p class="text-center text-xs opacity-40">No records found.</p>
+            </td>
+          </tr>
+        <% else %>
+          <% @fiats.each do |fiat| %>
+            <tr class="user-fiats text-right hover:bg-neutral-400/10">
+              <td class="text-xs text-center opacity-60">
+                <%= fiat.created_at.strftime('%b-%d-%Y') %>
+              </td>
+              <% if current_user.admin == true %>
+                <td class="text-left">
+                  <p><%= find_user_info(fiat.user_id).email %></p>
+                  <p class="capitalize text-xs opacity-50">
+                    <%= find_user_info(fiat.user_id).first_name %>
+                    <%= find_user_info(fiat.user_id).last_name %>
+                  </p>
+                </td>
+              <% end %>
+              <td class="font-semibold text-center">
+                  <%= "USD" %>
+              </td>
+              <td class="capitalize text-center">
+                <%= fiat.transaction_type %>
+              </td>
+              <td class="text-sm">
+                <%= custom_formatter(fiat.amount, 2, 'stock') %>
+                &#127820;
+              </td>
+              <td>
+                <%=
+                  custom_formatter(
+                    fiat.amount
                   )
                 %>
               </td>

@@ -86,7 +86,8 @@
   }
 
   .stock-list-selector,
-  .users-list-selector {
+  .users-list-selector,
+  .transactions-list-selector {
     @apply hidden;
   }
 
@@ -126,7 +127,10 @@
 #favorites-radio:checked ~ #favorites-label,
 #all-radio:checked ~ #all-label,
 #deposit-radio:checked ~ #deposit-label,
-#withdraw-radio:checked ~ #withdraw-label {
+#withdraw-radio:checked ~ #withdraw-label,
+#stock-radio:checked ~ #stock-label,
+#fiat-radio:checked ~ #fiat-label,
+ {
   @apply text-yellow-400 bg-yellow-200/10;
 }
 #hot-stocks,
@@ -148,11 +152,14 @@
 }
 
 .pending-users,
-.approved-users {
+.approved-users,
+.user-fiats, .user-stocks {
   display: none;
 }
 .wrapper:has(#pending-radio:checked) .pending-users,
-.wrapper:has(#approved-radio:checked) .approved-users {
+.wrapper:has(#approved-radio:checked) .approved-users, 
+.wrapper:has(#stock-radio:checked) .user-stocks,
+.wrapper:has(#fiat-radio:checked) .user-fiats {
   display: table-row;
 }
 
