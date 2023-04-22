@@ -7,10 +7,11 @@ class TransactionsController < ApplicationController
     # transactions page
     if current_user.admin == true
       @transactions = Transaction.all.order(created_at: :desc)
+      @fiats = Fiat.all.order(created_at: :desc)
     else
       #
       @transactions = current_user.transactions.order(created_at: :desc)
-      @fiats = current_user.fiats
+      @fiats = current_user.fiats.order(created_at: :desc)
     end
   end
 
