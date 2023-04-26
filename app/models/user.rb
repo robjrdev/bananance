@@ -22,7 +22,6 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, on: :create
   validate :passwords_match
 
-
   def password
     @password
   end
@@ -46,5 +45,21 @@ class User < ApplicationRecord
     self.admin == true
   end
 
-  #comment
+  def send_notifications
+    NotificationMailer.new_user(self).deliver_later
+    NotificationMailer.pending(self).deliver_later
+    NotificationMailer.admin_notification(self).deliver_later
+  end
+
+  def update_status
+    if status == 'pending'
+      update_attribute(:status, 'approved')
+      NotificationMailer.approved(self).deliver_later
+      true
+    elsif update_attribute(:status, 'pending')
+      true
+    else
+      false
+    end
+  end
 end

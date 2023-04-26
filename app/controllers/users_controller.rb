@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :require_login, only: [:create]
+
   def new
     redirect_to dashboard_path if logged_in? && current_user.admin == false
     @user = User.new
@@ -7,15 +8,10 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.valid?
-      @user.save
-      NotificationMailer.new_user(@user).deliver_later
-      NotificationMailer.pending(@user).deliver_later
-      NotificationMailer.admin_notification(@user).deliver_later
-
+    if @user.save
+      @user.send_notifications
       redirect_to sign_in_path
     else
-      #flash.now[:notice] = @user.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
@@ -37,11 +33,7 @@ class UsersController < ApplicationController
   def update_status
     @user = User.find(params[:id])
 
-    if @user.status == 'pending'
-      @user.update_attribute(:status, 'approved')
-      NotificationMailer.approved(@user).deliver_later
-      redirect_to admin_path
-    elsif @user.update_attribute(:status, 'pending')
+    if @user.update_status
       redirect_to admin_path
     else
       flash[:error] = @user.errors.full_messages
@@ -62,52 +54,6 @@ class UsersController < ApplicationController
   def withdraw_money
     redirect_to fiats_withdraw_path(current_user)
   end
-
-  # def deposit
-  #   @user = User.find(params[:id])
-  # end
-
-  # def deposit_money
-  #   @user = current_user
-  #   type = params[:commit]
-  #   amount = params[:amount].to_i
-
-  #   if amount <= 0
-  #     flash[:error] = "Amount must be greater than zero"
-  #     render :deposit, status: :unprocessable_entity
-  #   else
-  #       if @user.update_attribute(:cash, "#{@user.cash += amount}")
-  #         flash[:success] = "Deposit successful! You've deposited $#{amount}"
-  #         redirect_to dashboard_path
-  #       else
-  #         flash[:error] = "Deposit failed"
-  #         render :deposit, status: :unprocessable_entity
-  #       end
-  #   end
-  # end
-
-  # def withdraw
-  #   @user = User.find(params[:id])
-  # end
-
-  # def withdraw_money
-  #   @user = current_user
-  #   amount = params[:amount].to_i
-  #   type = params[:commit]
-
-  #   if amount > @user.cash
-  #     flash[:error] = "Insufficient funds"
-  #     render :withdraw, status: :unprocessable_entity
-  #   else
-  #       if @user.update_attribute(:cash, "#{@user.cash -= amount}")
-  #         flash[:success] = "Withdraw successful! You've withdrawn $#{amount}"
-  #         redirect_to dashboard_path
-  #       else
-  #         flash[:error] = "Withdraw failed"
-  #         render :deposit, status: :unprocessable_entity
-  #       end
-  #   end
-  # end
 
   private
 
