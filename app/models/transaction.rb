@@ -45,9 +45,10 @@ class Transaction < ApplicationRecord
 
     if transaction.save &&
          user_stock.update(stock: stock, quantity: updated_quantity)
-      return transaction
+      return transaction, nil
     else
-      return nil
+      error_message = transaction.errors.full_messages
+      return transaction, error_message
     end
   end
 
