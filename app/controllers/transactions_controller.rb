@@ -21,7 +21,7 @@ class TransactionsController < ApplicationController
     @transaction, @error_message =
       Transaction.save_transaction(transaction_params, current_user, @stock)
 
-    if error_message.nil?
+    if @error_message.nil?
       flash[:success] = @transaction.display_success_message
       redirect_to stocks_show_path
     else
