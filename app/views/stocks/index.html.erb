@@ -34,7 +34,7 @@
           Holdings
         </label>
       </div>
-      <%= form_with url: stocks_lookup_path, class: 'grid grid-cols-[1fr_auto] basis-[250px] dark:bg-neutral-800/80 rounded-md border-black/10 dark:border-white/0 border-2 hover:border-yellow-500/50 grow items-stretch' do |form| %>
+      <%= form_with url: lookup_stocks_path, class: 'grid grid-cols-[1fr_auto] basis-[250px] dark:bg-neutral-800/80 rounded-md border-black/10 dark:border-white/0 border-2 hover:border-yellow-500/50 grow items-stretch' do |form| %>
         <%=
           form.text_field :query,
                           class: 'bg-transparent ring-0 focus:ring-0 border-0'
