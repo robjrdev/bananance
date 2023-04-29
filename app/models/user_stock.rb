@@ -16,4 +16,8 @@ class UserStock < ApplicationRecord
   def self.favorite_stocks(user)
     where(user_id: user.id, favorite: true).where('quantity > ?', 0)
   end
+
+  def stock_data(iex_client)
+    iex_client.quote(stock.symbol)
+  end
 end
