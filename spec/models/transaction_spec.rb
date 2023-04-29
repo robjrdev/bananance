@@ -74,7 +74,9 @@ RSpec.describe Transaction, type: :model do
     before { transaction.save }
 
     describe '.transactions_and_fiats' do
-      let(:fiat) { Fiat.create(user: user, amount: 1000) }
+      let(:fiat) { Fiat.create_deposit(user, 1000) }
+      before { fiat }
+
       context 'when user is admin' do
         before { user.update(admin: true) }
         it 'returns all transactions and fiats' do
