@@ -19,13 +19,17 @@ class UserStock < ApplicationRecord
 
   def stock_data(iex_client, quantity = nil)
     begin
-      quote = iex_client.quote(stock.symbol) # Access the symbol property of the associated stock object
-      quote_data = quote.to_h
-      quote_data[:quantity] = quantity if quantity
-      quote_data
+      quote = iex_client.quote(stock.symbol)
+      {
+        company_name: stock.name,
+        symbol: stock.symbol,
+        quantity: quantity,
+        latest_price: quote.latest_price,
+        change_percent_s: quote.change_percent_s,
+      }
     rescue StandardError => e
       Rails
-        .logger.error "Error fetching stock data for #{stock.symbol}: #{e.message}" # Access the symbol property of the associated stock object
+        .logger.error "Error fetching stock data for #{stock.symbol}: #{e.message}"
       nil
     end
   end
