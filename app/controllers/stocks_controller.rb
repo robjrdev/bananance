@@ -2,64 +2,26 @@ class StocksController < ApplicationController
   before_action :initialize_iex_client, only: %i[index search show look_up]
 
   def index
-    #
-    @owned_stocks =
-      UserStock.where(user_id: current_user.id).where('quantity > ?', 0)
+    @owned_stocks = UserStock.owned_stocks(current_user)
     @stocks =
-      @owned_stocks.map do |owned_stock|
-        stock = Stock.find(owned_stock.stock_id)
-        quote = @iex_client.quote(stock.symbol)
-        {
-          company_name: stock.name,
-          symbol: stock.symbol,
-          quantity: owned_stock.quantity,
-          latest_price: quote.latest_price,
-          change_percent_s: quote.change_percent_s,
-        }
-      end
+      @owned_stocks.map { |owned_stock| owned_stock.stock_data(@iex_client) }
 
-    @favorite_stocks =
-      UserStock
-        .where(user_id: current_user.id, favorite: true)
-        .where('quantity > ?', 0)
+    @favorite_stocks = UserStock.favorite_stocks(current_user)
     @favorites =
       @favorite_stocks.map do |favorite_stock|
-        stock = Stock.find(favorite_stock.stock_id)
-        quote = @iex_client.quote(stock.symbol)
-        {
-          company_name: stock.name,
-          symbol: stock.symbol,
-          quantity: favorite_stock.quantity,
-          latest_price: quote.latest_price,
-          change_percent_s: quote.change_percent_s,
-        }
+        favorite_stock.stock_data(@iex_client)
       end
   end
 
-  def new
-    #
-  end
+  def new; end
 
   def show
-    #
-
     @stock = Stock.find_by(symbol: params[:symbol])
     @user_stock = current_user.user_stocks.find_or_initialize_by(stock: @stock)
     @shares = @user_stock.try(:quantity) || 0
     @is_favorite = @user_stock.favorite
 
-    # chart part
-    @chart = @iex_client.chart(@stock.symbol)
-
-    @chart_data =
-      @chart.each_with_object({}) do |data_point, hash|
-        hash[data_point['label']] = [
-          data_point['open'],
-          data_point['close'],
-          data_point['high'],
-          data_point['low'],
-        ]
-      end
+    @chart_data = @stock.chart_data(@iex_client)
 
     begin
       @quote = @iex_client.quote(@stock.symbol)
@@ -73,44 +35,30 @@ class StocksController < ApplicationController
 
   def search
     begin
-      @quote = @iex_client.quote(params[:symbol])
-
-      @stock = Stock.find_by(symbol: params[:symbol])
-
-      if @stock.nil?
-        @stock = Stock.new
-        @stock.symbol = @quote.symbol
-        @stock.name = @quote.company_name
-        @stock.save
-      end
-
+      @quote, @stock =
+        Stock.find_or_create_from_iex_quote(@iex_client, params[:symbol])
       redirect_to stocks_show_path(@stock.symbol)
-    rescue IEX::Errors::SymbolNotFoundError
-      flash[:error] = ['Symbol not found. Please input a valid symbol.']
+    rescue ActiveRecord::RecordNotFound => e
+      flash[:error] = [e.message]
       render :new
     end
   end
 
   def look_up
-    if params[:query] == '' || params[:query].nil? || params[:query].empty?
-      flash[:error] = ['Type a symbol or company name']
-      redirect_to market_path and return
-    elsif params[:query].length < 3
-      flash[:error] = ['Too many matches']
+    if params[:query].blank? || params[:query].length < 3
+      flash[:error] =
+        if params[:query].blank?
+          ['Type a symbol or company name']
+        else
+          ['Too many matches']
+        end
       redirect_to market_path and return
     end
 
-    #
-    # debugger
     begin
-      @all_symbols ||= @iex_client.ref_data_symbols
-      @filtered_symbols =
-        @all_symbols.select do |symbol|
-          symbol.symbol.downcase.include?(params[:query].downcase) ||
-            symbol.name.downcase.include?(params[:query].downcase)
-        end
+      @filtered_symbols = Stock.filtered_symbols(@iex_client, params[:query])
       @stocks =
-        @filtered_symbols.map { |symbol| @iex_client.quote(symbol.symbol) }
+        Stock.quotes_from_filtered_symbols(@iex_client, @filtered_symbols)
 
       respond_to do |format|
         format.turbo_stream do
