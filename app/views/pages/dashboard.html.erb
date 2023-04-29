@@ -45,7 +45,7 @@
     <div>
       <div class="flex flex-wrap-reverse justify-between items-center gap-4">
         <h1 class="text-4xl font-bold grow-[30]">Markets</h1>
-        <%= form_with scope: @stock, url: stocks_search_path, class: "grow-[1]" do |f| %>
+        <%= form_with scope: @stock, url: search_stocks_path, class: "grow-[1]" do |f| %>
           <div
             class="border-2 border-black/10 dark:border-white/10 dark:bg-neutral-800/80 rounded-md opacity-60 grid grid-cols-[1fr_auto]"
           >
@@ -115,7 +115,7 @@
           <% else %>
             <% @gainers_market.each do |stock| %>
               <% cache stock do %>
-                <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
+                <%= button_to search_stocks_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
                   <span class="text-2xl">&#127820;</span>
                   <span class="font-semibold text-left"><%=
                       stock.company_name
@@ -153,7 +153,7 @@
           <% else %>
             <% @user_stocks.each do |stock| %>
               <% cache stock do %>
-                <%= button_to stocks_search_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
+                <%= button_to search_stocks_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full rounded-md" do %>
                   <span class="text-2xl">&#127820;</span>
                   <span class="font-semibold text-left"><%=
                       stock[:company_name]

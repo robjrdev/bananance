@@ -70,7 +70,7 @@
           <% else %>
             <% @stocks.each do |stock| %>
               <% cache stock do %>
-                <%= button_to stocks_search_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
+                <%= button_to search_stocks_path, params: {symbol: stock[:symbol]} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
                   <span class="text-2xl">&#127820;</span>
                   <span class="font-semibold text-left"><%=
                       stock[:company_name]
@@ -114,7 +114,7 @@
           <% else %>
             <% @favorites.each do |stock| %>
               <% cache stock do %>
-                <%= button_to stocks_search_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
+                <%= button_to search_stocks_path, params: {symbol: stock.symbol} , :class => "grid grid-cols-[35px_1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-4 hover:bg-neutral-400/10 p-4 w-full" do %>
                   <span class="text-2xl">&#127820;</span>
                   <span class="font-semibold text-left"><%=
                       stock.company_name

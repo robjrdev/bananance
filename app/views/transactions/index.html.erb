@@ -83,7 +83,7 @@
                 </td>
               <% end %>
               <td class="font-semibold text-center">
-                <%= button_to stocks_search_path, params: {symbol: transaction.symbol} , :class => "w-full hover:text-yellow-500" do %>
+                <%= button_to search_stocks_path, params: {symbol: transaction.symbol} , :class => "w-full hover:text-yellow-500" do %>
                   <%= transaction.symbol %>
                 <% end %>
               </td>

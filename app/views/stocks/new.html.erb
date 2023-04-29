@@ -1,7 +1,7 @@
 <p>search stock</p>
 <%= current_user.user_stocks %>
 
-<%= form_with scope: @stock, url: stocks_search_path do |f| %>
+<%= form_with scope: @stock, url: search_stocks_path do |f| %>
   <div class="form-outline mb-4">
     <%=
       f.text_field :symbol,

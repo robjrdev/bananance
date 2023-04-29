@@ -2,42 +2,28 @@ Rails
   .application
   .routes
   .draw do
-    scope '/trade' do
-      get '/:symbol', to: 'stocks#show', as: :stocks_show
-      get '/:symbol/buy', to: 'transactions#buy_stock', as: :buy_stock
-      get '/:symbol/sell', to: 'transactions#sell_stock', as: :sell_stock
-      post '/:symbol',
-           to: 'transactions#save_transaction',
-           as: :save_transaction
-      put '/:symbol', to: 'stocks#favorite', as: :stock_favorite
+    resources :stocks, only: %i[index show new], path: '/trade' do
+      member do
+        get 'buy', to: 'transactions#buy_stock', as: :buy
+        get 'sell', to: 'transactions#sell_stock', as: :sell
+        post '/', to: 'transactions#save_transaction', as: :save_transaction
+        put '/', to: 'stocks#favorite', as: :favorite
+      end
+      collection do
+        post 'search', to: 'stocks#search', as: :search
+        post 'lookup', to: 'stocks#look_up', as: :lookup
+      end
     end
 
-    get '/portfolio', to: 'stocks#index', as: :stocks_index
-    post '/search/', to: 'stocks#search', as: :stocks_search
-    get '/stocks/search', to: 'stocks#new', as: :stocks_new
-    post '/lookup', to: 'stocks#look_up', as: :stocks_lookup
+    resources :transactions, only: :index
 
-    get '/wallet', to: 'pages#wallet', as: :wallet
-    get '/transactions', to: 'transactions#index', as: :transactions
-    get '/markets', to: 'pages#market', as: :market
-    get '/dashboard', to: 'pages#dashboard', as: :dashboard
-    get '/pending', to: 'pages#pending', as: :pending
-    get '/admin', to: 'pages#admin', as: :admin
+    resources :users, only: %i[new create destroy edit update] do
+      member do
+        patch 'update_status', to: 'users#update_status', as: 'update_status'
+      end
+    end
 
-    get 'sessions/new'
-    get '/signup' => 'users#new', :as => :signup
-    resources :users, only: %i[create destroy]
-
-    get '/sign_in' => 'sessions#new'
-    get '/sign_out' => 'sessions#destroy'
-    resources :sessions, only: %i[create destroy]
-
-    patch '/users/:id/update_status',
-          to: 'users#update_status',
-          as: 'update_user_status'
-    get '/users/:id/edit' => 'users#edit', :as => :edit_user
-    patch '/users/:id', to: 'users#update', as: :update_user
-    resources :fiats do
+    resources :fiats, only: [] do
       member do
         get :deposit
         post :create_deposit
@@ -45,6 +31,19 @@ Rails
         post :create_withdrawal
       end
     end
+
+    resources :sessions, only: %i[new create destroy]
+
+    get '/portfolio', to: 'stocks#index', as: :stocks_index
+    get '/wallet', to: 'pages#wallet', as: :wallet
+    get '/markets', to: 'pages#market', as: :market
+    get '/dashboard', to: 'pages#dashboard', as: :dashboard
+    get '/pending', to: 'pages#pending', as: :pending
+    get '/admin', to: 'pages#admin', as: :admin
+
+    get '/signup', to: 'users#new', as: :signup
+    get '/sign_in', to: 'sessions#new', as: :sign_in
+    get '/sign_out', to: 'sessions#destroy', as: :sign_out
 
     root to: 'pages#index'
   end
