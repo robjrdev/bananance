@@ -2,18 +2,15 @@ require 'rails_helper'
 
 RSpec.describe IexClientService, type: :service do
   let(:iex_client_service) { IexClientService.new }
-  let(:iex_client) { instance_double('IEX::Api::Client') }
+  let(:iex_api_wrapper) { instance_double('IexApiWrapper') }
 
-  before do
-    allow(IEX::Api::Client).to receive(:new).and_return(iex_client)
-    allow(iex_client_service).to receive(:client).and_return(iex_client)
-  end
+  before { allow(IexApiWrapper).to receive(:new).and_return(iex_api_wrapper) }
 
   describe '#quote' do
     let(:quote) { double('quote') }
 
     before do
-      allow(iex_client).to receive(:quote).with('AAPL').and_return(quote)
+      allow(iex_api_wrapper).to receive(:quote).with('AAPL').and_return(quote)
     end
 
     it 'returns the quote for a given symbol' do
@@ -27,7 +24,7 @@ RSpec.describe IexClientService, type: :service do
     let(:market_list) { double('market_list') }
 
     before do
-      allow(iex_client).to receive(:stock_market_list)
+      allow(iex_api_wrapper).to receive(:stock_market_list)
         .with(market_type)
         .and_return(market_list)
     end
@@ -42,7 +39,7 @@ RSpec.describe IexClientService, type: :service do
     let(:chart) { double('chart') }
 
     before do
-      allow(iex_client).to receive(:chart).with('AAPL').and_return(chart)
+      allow(iex_api_wrapper).to receive(:chart).with('AAPL').and_return(chart)
     end
 
     it 'returns the chart for a given symbol' do
@@ -55,7 +52,7 @@ RSpec.describe IexClientService, type: :service do
     let(:ref_data_symbols) { double('ref_data_symbols') }
 
     before do
-      allow(iex_client).to receive(:ref_data_symbols).and_return(
+      allow(iex_api_wrapper).to receive(:ref_data_symbols).and_return(
         ref_data_symbols,
       )
     end
