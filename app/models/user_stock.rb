@@ -17,7 +17,16 @@ class UserStock < ApplicationRecord
     where(user_id: user.id, favorite: true).where('quantity > ?', 0)
   end
 
-  def stock_data(iex_client)
-    iex_client.quote(stock.symbol)
+  def stock_data(iex_client, quantity = nil)
+    begin
+      quote = iex_client.quote(stock.symbol) # Access the symbol property of the associated stock object
+      quote_data = quote.to_h
+      quote_data[:quantity] = quantity if quantity
+      quote_data
+    rescue StandardError => e
+      Rails
+        .logger.error "Error fetching stock data for #{stock.symbol}: #{e.message}" # Access the symbol property of the associated stock object
+      nil
+    end
   end
 end
