@@ -1,4 +1,3 @@
-# app/services/iex_client_service.rb
 class IexClientService
   def initialize
     @api_wrapper = IexApiWrapper.new

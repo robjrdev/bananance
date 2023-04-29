@@ -1,4 +1,3 @@
-# app/services/iex_api_wrapper.rb
 require 'iex-ruby-client'
 
 class IexApiWrapper

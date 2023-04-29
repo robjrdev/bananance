@@ -1,4 +1,3 @@
-# spec/models/stock_spec.rb
 require 'rails_helper'
 
 RSpec.describe Stock, type: :model do
