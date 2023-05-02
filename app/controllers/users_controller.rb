@@ -47,14 +47,6 @@ class UsersController < ApplicationController
     redirect_to admin_path
   end
 
-  def deposit_money
-    redirect_to fiats_deposit_path(current_user)
-  end
-
-  def withdraw_money
-    redirect_to fiats_withdraw_path(current_user)
-  end
-
   private
 
   def user_params

@@ -81,3 +81,4 @@ gem 'iex-ruby-client'
 gem "rails_charts"
 
 gem 'simplecov', require: false, group: :test
+gem 'rails-controller-testing'

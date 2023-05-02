@@ -63,7 +63,7 @@
                 <%=
                   button_to(
                     user.status == 'pending' ? 'Approve' : 'Pending',
-                    update_status_user_path(user),
+                    update_user_status_path(user),
                     method: :patch,
                     class:
                       'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs',
@@ -105,7 +105,7 @@
                 <%=
                   button_to(
                     user.status == 'pending' ? 'Approve' : 'Pending',
-                    update_status_user_path(user),
+                    update_user_status_path(user),
                     method: :patch,
                     class:
                       'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs',
